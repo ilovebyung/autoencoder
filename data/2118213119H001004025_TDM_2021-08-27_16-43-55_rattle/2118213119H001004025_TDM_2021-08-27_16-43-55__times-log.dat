@@ -1,0 +1,86 @@
+Reset Counter	PASS	0
+#Test Step - Prepare data for test	PASS	402
+#Test Step - Reset OPC data	PASS	0
+(PLC) PC TEST ON	PASS	156
+#Test Step - PLC OPC Ready_To_Test	PASS	0
+#Subtest Step -Program HIPOT	PASS	650
+#Subtest Step -Execute Test	PASS	1309
+#Subtest Step -Read Result	PASS	181
+#Test Step - Ground Bond Test	PASS	3
+(PLC) Connect Electrical Connectors	PASS	3901
+#Subtest Step -Program HIPOT	PASS	657
+#Subtest Step -Execute Test	PASS	1062
+#Subtest Step -Read Result	PASS	180
+#Test Step - Ground Continuity Test	PASS	1
+(PC) Set Relays for  Interlock 1	PASS	74
+#Subtest Step -Program HIPOT	PASS	663
+#Subtest Step -Execute Test	PASS	1061
+#Subtest Step -Read Result	PASS	181
+(PC) Reset Relays for  Interlock 1	PASS	74
+#Test Step - Interlock 1 Continuity	PASS	1
+(PC) Set Relays for  Interlock 2	PASS	74
+#Subtest Step -Program HIPOT	PASS	672
+#Subtest Step -Execute Test	PASS	1062
+#Subtest Step -Read Result	PASS	181
+(PC) Reset Relays for  Interlock 2	PASS	74
+#Test Step - Interlock 2 Continuity	PASS	1
+#Subtest Step - Request DAQ ON	PASS	0
+(PLC) Connect Electrical Plugs	PASS	55
+#Subtest Step -Power compressor "Ignition on"	PASS	1325
+(PLC) Disable Disconnect Electrical Plugs	PASS	0
+(XNET) Read Inverter FW	PASS	745
+#Subtest Step - Set Init Pressure	PASS	445
+(XNET) Read Inverter sn	PASS	2521
+#Test Step - XNET UDS Initialize & LV Power Connections Request	PASS	1
+#Subtest Step -Check HV Bus before start-up	PASS	6
+(XNET) Enable Shorcircuit Mode	PASS	1477
+#Subtest Step -Program HIPOT	PASS	733
+#Subtest Step -Execute Test	PASS	7463
+#Subtest Step -Read Result	PASS	181
+(XNET) Disable Shorcircuit Mode	PASS	1511
+#Subtest Step -Check HV Bus before start-up	PASS	85
+#Test Step - Isolation Resistance	PASS	0
+(XNET) activate XNET Communications	PASS	0
+(PLC)Connect Pneumatical	PASS	5004
+#Subtest Step - Activate valves	PASS	234
+#Subtest Step - Check Inverter Temperature	PASS	0
+#Test Step - Check start conditions	PASS	0
+#Subtest Step - Set High Voltage PSU	PASS	3167
+#Subtest Step - Set Compressor acceleration Ramp	PASS	2940
+#Subtest Step - Set Compressor ON (t0) 	PASS	257
+#Subtest Step - Check Inverter Temperature	PASS	36
+#Test Step - Start Compressor	PASS	0
+#Subtest Step - Set Pressure Condition (t2)	PASS	8041
+#Subtest Step - Set Speed condition (t1)	PASS	3438
+#Subtest Step - Set Analyze Condition (t3)	PASS	0
+#Subtest Step - Set Rattle Pressure	PASS	3925
+#Subtest Step -  Rattle Test	PASS	97
+#Subtest Step - Set Stable Condition (t4)	PASS	101
+#Subtest Step - Set Stop Condition (t5)	PASS	5100
+#Subtest Step - Set Compressor OFF	PASS	100
+#Subtest Step - Set Compressor OFF	PASS	100
+#Test Step - Compressor Fault Handler	PASS	0
+#Subtest Step - Wait speed = 0	PASS	680
+#Subtest Step - Set Stop Condition (t6)	PASS	100
+#Subtest Step - HV Power Supply OFF	PASS	131
+#Subtest Step - Set Discharge Resistor	PASS	174
+#Subtest Step - Wait Capacitors Voltage = 0	PASS	376
+#Subtest Step - Deactivate valves	PASS	397
+#Subtest step - Unpower Compressor "Ignition off"	PASS	1
+#Subtest Step - Check for pressure = 0	PASS	7300
+#Subtest Step - Set End Condition (t7)	PASS	0
+(PLC)Disconnect Electric&Pneumatic	PASS	5087
+#Subtest Step - Reset HIPOT Scanner	PASS	0
+#Test Step - Acquire Data	PASS	0
+#Subtest Step - Cut Signals	PASS	957
+#Subtest Step - Analize Times	PASS	2
+#Subtest Step - Analize Feedback Signals	PASS	17
+#Subtest Step - Analize Analog Inputs	PASS	805
+#Subtest Step - Analize Vibration	PASS	2617
+#Subtest Step - Analize Microphone	PASS	321
+#Test Step - ANALIZE	PASS	63
+#Subtest Step - Save TDM	PASS	1619
+#Subtest Step - Save TST	PASS	1116
+#Test Step - Save Results	PASS	3
+(PLC)Disconnect Electric&Pneumatic	PASS	0
+#Test Step - Noise Test End	PASS	0

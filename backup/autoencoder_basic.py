@@ -66,6 +66,10 @@ plt.plot(history.history["val_loss"], label="Validation Loss")
 plt.legend()
 plt.show()
 
+# save and load a mode
+autoencoder.save('./model/')
+autoencoder = keras.models.load_model('./model/')
+
 # calculate loss and threshold
 encoded_imgs = autoencoder.encoder(x_train).numpy()
 decoded_imgs = autoencoder.decoder(encoded_imgs).numpy()
@@ -97,12 +101,12 @@ plt.show()
 # individual sample
 # Load an image from a file
 img = cv2.imread('c:\\data\\test.jpg', 0)
-plt.imshow(img)
+plt.imshow(img, cmap='gray')
 
 # nomalize img
 img = img.astype('float32') / 255.
 # reshape img
-img = img.reshape(1, 28, 28)
+img = img.reshape(-1, 28, 28)
 
 # test an image
 encoded = autoencoder.encoder(img).numpy()
@@ -112,3 +116,8 @@ decoded = autoencoder.decoder(encoded).numpy()
 
 loss = tf.keras.losses.mse(decoded, img)
 print(f"Loss: {np.mean(loss) + np.std(loss)}")
+
+
+small_size = 28*28 * 1
+real_data_size = 851*481*3
+print(f'Real data is {int(real_data_size / small_size)} times bigger')

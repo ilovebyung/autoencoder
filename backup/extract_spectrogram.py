@@ -4,13 +4,13 @@ import librosa.display
 import numpy as np
 import matplotlib.pyplot as plt
 
+'''
+Read wav files from SOURCE folder, extract spectrograms in JPG format, and save in TARGET folder
+'''
+
 
 class SpectrogramExtractor:
-    # def __init__(self, SOURCE, TARGET):
-    #     self.SOURCE = SOURCE
-    #     self.TARGET = TARGET
-
-    def extract(self, SOURCE, TARGET):
+    def extract(self, SOURCE, TARGET, FIG_SIZE):
         os.chdir(SOURCE)
         for file in os.listdir(SOURCE):
             # load audio file with Librosa
@@ -51,7 +51,7 @@ class SpectrogramExtractor:
             plt.axis('off')
             librosa.display.specshow(
                 log_spectrogram, sr=sample_rate, hop_length=hop_length)
-            plt.savefig(f'{TARGET}{file[0:-4]}.jpg',
+            plt.savefig(f'{TARGET}\\{file[0:-4]}.jpg',
                         bbox_inches='tight', pad_inches=0)
 
 
@@ -60,9 +60,15 @@ if __name__ == "__main__":
     '''
     Loading audio files with Librosa
     '''
-    SOURCE = "C:\\data\\audio"
-    TARGET = "C:\\data\\out\\"
-    FIG_SIZE = (50, 20)
+    # SOURCE = "C:/data/audio"
+    SOURCE = "C:/data/in"
+    # SOURCE = "C:/data/baseline"
+    # SOURCE = "C:/data/rattle"
+    # TARGET = "C:/data/spectrogram/baseline"
+    TARGET = "C:/data/out"
+    # TARGET = "C:/data/spectrogram/rattle"
+    FIG_SIZE = (40, 40)
+    # FIG_SIZE = (50, 20)
 
     # instantiate all objects
     extractor = SpectrogramExtractor()

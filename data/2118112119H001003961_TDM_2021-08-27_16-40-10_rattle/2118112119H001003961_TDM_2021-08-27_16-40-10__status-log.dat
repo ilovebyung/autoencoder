@@ -1,0 +1,33 @@
+27/08/2021 16:41:33 End Functional Test
+27/08/2021 16:41:33 TST files saved. 
+27/08/2021 16:41:32 TDM files saved. 
+27/08/2021 16:41:30 Update User Interface
+27/08/2021 16:41:30 End Microphone Test
+27/08/2021 16:41:30 End Vibration Test
+27/08/2021 16:41:27 End Anolog Input Test
+27/08/2021 16:41:26 End Feedback Signals Test
+27/08/2021 16:41:25 Start Analysis data
+27/08/2021 16:41:13 Releasing pressure from pneumatic circuit....
+27/08/2021 16:41:05 Ask for Rattle Pressure...
+27/08/2021 16:40:44 Setting DUT for Noise Test (XNET) ...
+27/08/2021 16:40:44 Preparing pneumatic circuit...
+27/08/2021 16:40:39 Check compressor: 0 V at HV bus after Isolation Resistance Test
+27/08/2021 16:40:37 End Isolation Resistance Test
+27/08/2021 16:40:29 Start Isolation Resistance Test
+27/08/2021 16:40:28 Check compressor: 0 V at HV bus before Isolation Resistance Test
+27/08/2021 16:40:28 End XNET Communications ...
+27/08/2021 16:40:22 Start XNET Communications ...
+27/08/2021 16:40:22 Acquiring data...
+27/08/2021 16:40:22 End Interlock 2 Continuity Test
+27/08/2021 16:40:20 Start Interlock 2 Continuity Test
+27/08/2021 16:40:20 End Interlock 1 Continuity Test
+27/08/2021 16:40:18 Start Interlock 1 Continuity Test
+27/08/2021 16:40:18 End Ground Continuity Test
+27/08/2021 16:40:16 Start Ground Continuity Test
+27/08/2021 16:40:13 End Ground Bond Test
+27/08/2021 16:40:10 Start Ground Bond Test
+27/08/2021 16:40:10 Wait for PLC (PLC TEST ON)
+27/08/2021 16:40:10 Load Test Time Parameters
+27/08/2021 16:40:10 Load General Parameters
+27/08/2021 16:40:10 Reset FGV TEST Data
+27/08/2021 16:40:10 Releasing pressure from pneumatic circuit....

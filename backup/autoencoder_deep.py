@@ -3,13 +3,14 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import tensorflow as tf
+import tensorflow.keras as keras
 
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 from sklearn.model_selection import train_test_split
 from tensorflow.keras import layers, losses
 from tensorflow.keras.datasets import fashion_mnist
 from tensorflow.keras.models import Model
-
+from tensorflow.python.keras.layers.core import Dropout
 
 # Load the dataset
 (x_train, y_train), (x_test, y_test) = fashion_mnist.load_data()
@@ -43,7 +44,7 @@ test_images = test_images.astype('float32') / 255.
 
 
 # Define a convolutional Autoencoder
-latent_dim = 64
+latent_dim = 64 * 2
 
 
 class Autoencoder(Model):

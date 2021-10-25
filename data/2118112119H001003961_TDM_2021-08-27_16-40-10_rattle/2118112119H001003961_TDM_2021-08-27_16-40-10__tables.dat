@@ -1,0 +1,318 @@
+Test Name = Noise Test S/N: 2118112119H001003961
+
+[IDENTIFICATION TEXT]
+Date & Time	27/08/2021 - 16:40:10
+Final Result	PASS
+Version Number	 - 
+Model Number	MX923001
+Model Type	LIN
+BarCode	2118112119H001003961
+UTT Code	No UTT
+UTT Description	No UTT
+Software ID	MX923001_8600rpm_20_Bands_LIMITS_05_January.pro
+TST folder	2118112119H001003961_TST_2021-08-27_16-40-10_
+TDM folder	2118112119H001003961_TDM_2021-08-27_16-40-10_
+[IDENTIFICATION TEXT END]
+
+[IDENTIFICATION COLOR]
+16448250	16448250
+16448250	6618880
+16448250	16448250
+16448250	16448250
+16448250	16448250
+16448250	16448250
+16448250	16448250
+[IDENTIFICATION COLOR END]
+
+[RESULTS TEXT]
+ELECTRICAL SAFETY	 	 	 	 	 	 
+Test Summary						Pass
+Result Ground Bond Test	15.000	miliOhms	65.000	0.000	0	Pass
+ELECTRICAL SAFETY	 	 	 	 	 	 
+Test Summary						Pass
+Result Ground Continuity Test	0.100	Ohms	0.650	0.000	0	Pass
+ELECTRICAL SAFETY	 	 	 	 	 	 
+Test Summary						Pass
+Result Interlock 1 Continuity Test	0.290	Ohms	0.650	0.000	0	Pass
+ELECTRICAL SAFETY	 	 	 	 	 	 
+Test Summary						Pass
+Result Interlock 2 Continuity Test	0.370	Ohms	0.650	0.000	0	Pass
+Xnet Communications	 	 	 	 	 	 
+Inverter FW Version	726					Pass
+Inverter SN	106232					Pass
+Test Summary						Pass
+ELECTRICAL SAFETY	 	 	 	 	 	 
+Test Summary						Pass
+Result Isolation Resistance Test	291.500	MegaOhms	50000.000	75.000	0	Pass
+Functional Sequence	 	 	 	 	 	 
+Reseteable DTC T2						Pass
+Non Reseteable DTC T2						Pass
+Functional Sequence	 	 	 	 	 	 
+Reseteable DTC T1						Pass
+Non Reseteable DTC T1						Pass
+Functional Sequence	 	 	 	 	 	 
+Reseteable DTC T3						Pass
+Non Reseteable DTC T3						Pass
+TIME MARK	 	 	 	 	 	 
+ta - t0 (s)	23.477	s	400.000	0.000	0	Pass
+t0 - t2 (s)	7.568	s	12.000	0.000	0	Pass
+t1 - t6 (s)	10.203	s	400.000	0.000	0	Pass
+t3 - t4 (s)	3.633	s	400.000	0.000	0	Pass
+(T3-T4) Functional Test Signals	 	 	 	 	 	 
+Test Summary						Pass
+Suction pressure	2.863	bar	4.850	0.500	0	Pass
+Discharge Pressure	17.213	bar	17.600	17.000	0	Pass
+Suction Flow	0.858	m3/min	0.950	0.830	0	Pass
+Discharge Flow	0.172	m3/min	0.500	0.050	0	Pass
+HV Voltage	298.233	Volts	303.000	297.000	0	Pass
+LV Voltage	13.740	Volts	14.750	11.750	0	Pass
+HV Current	19.466	Amps	28.000	10.000	0	Pass
+LV Current	0.280	Amps	0.350	0.250	0	Pass
+Suction Temp	23.862	deg	35.000	0.000	0	Pass
+Discharge Temp	47.879	deg	75.000	0.000	0	Pass
+DUT Speed	8601.852	RPM	8800.000	8400.000	0	Pass
+DUT Current	25.296	A_pk	27.000	16.000	0	Pass
+DUT Temperature	45.204	deg	60.000	30.000	0	Pass
+Test Summary						Pass
+(T4-T5) Rattle Check	 	 	 	 	 	 
+HV Current	16.349	Amps	17.000	9.000	0	Pass
+(T3-T4) Vibration Analysis	 	 	 	 	 	 
+Test Summary						Pass
+ACC_Total t3_t4	28.725	dB	369.373	0.000	0	Pass
+Narrow Band TOP X t3_t4_Band_0	2.708	m/s^2	59.871	0.000	0	Pass
+Narrow Band TOP X t3_t4_Band_1	6.493	m/s^2	175.312	0.000	0	Pass
+Narrow Band TOP X t3_t4_Band_2	2.731	m/s^2	126.119	0.000	0	Pass
+Narrow Band TOP X t3_t4_Band_3	5.358	m/s^2	51.328	0.000	0	Pass
+Narrow Band TOP X t3_t4_Band_4	15.851	m/s^2	183.859	0.000	0	Pass
+Narrow Band TOP X t3_t4_Band_5	15.827	m/s^2	210.532	0.000	0	Pass
+Narrow Band TOP X t3_t4_Band_6	4.276	m/s^2	183.048	0.000	0	Pass
+Narrow Band TOP X t3_t4_Band_7	3.647	m/s^2	67.361	0.000	0	Pass
+Narrow Band TOP X t3_t4_Band_8	1.508	m/s^2	59.173	0.000	0	Pass
+Narrow Band TOP X t3_t4_Band_9	0.888	m/s^2	12.710	0.000	0	Pass
+Narrow Band TOP X t3_t4_Band_10	0.142	m/s^2	11.440	0.000	0	Pass
+Narrow Band TOP X t3_t4_Band_11	0.299	m/s^2	15.763	0.000	0	Pass
+Narrow Band TOP X t3_t4_Band_12	0.483	m/s^2	10.462	0.000	0	Pass
+Narrow Band TOP X t3_t4_Band_13	0.163	m/s^2	12.892	0.000	0	Pass
+Narrow Band TOP X t3_t4_Band_14	0.306	m/s^2	7.907	0.000	0	Pass
+Narrow Band TOP X t3_t4_Band_15	0.264	m/s^2	8.024	0.000	0	Pass
+Narrow Band TOP X t3_t4_Band_16	0.041	m/s^2	9.149	0.000	0	Pass
+Narrow Band TOP X t3_t4_Band_17	0.125	m/s^2	8.173	0.000	0	Pass
+Narrow Band TOP X t3_t4_Band_18	0.169	m/s^2	11.568	0.000	0	Pass
+Narrow Band TOP X t3_t4_Band_19	0.107	m/s^2	8.814	0.000	0	Pass
+Narrow Band TOP Y t3_t4_Band_0	0.848	m/s^2	79.438	0.000	0	Pass
+Narrow Band TOP Y t3_t4_Band_1	3.047	m/s^2	76.733	0.000	0	Pass
+Narrow Band TOP Y t3_t4_Band_2	2.311	m/s^2	78.988	0.000	0	Pass
+Narrow Band TOP Y t3_t4_Band_3	2.889	m/s^2	98.822	0.000	0	Pass
+Narrow Band TOP Y t3_t4_Band_4	14.651	m/s^2	272.846	0.000	0	Pass
+Narrow Band TOP Y t3_t4_Band_5	48.233	m/s^2	517.531	0.000	0	Pass
+Narrow Band TOP Y t3_t4_Band_6	8.278	m/s^2	265.778	0.000	0	Pass
+Narrow Band TOP Y t3_t4_Band_7	3.419	m/s^2	79.379	0.000	0	Pass
+Narrow Band TOP Y t3_t4_Band_8	1.531	m/s^2	71.243	0.000	0	Pass
+Narrow Band TOP Y t3_t4_Band_9	0.544	m/s^2	36.375	0.000	0	Pass
+Narrow Band TOP Y t3_t4_Band_10	0.934	m/s^2	15.438	0.000	0	Pass
+Narrow Band TOP Y t3_t4_Band_11	0.812	m/s^2	15.919	0.000	0	Pass
+Narrow Band TOP Y t3_t4_Band_12	0.272	m/s^2	9.555	0.000	0	Pass
+Narrow Band TOP Y t3_t4_Band_13	0.207	m/s^2	6.780	0.000	0	Pass
+Narrow Band TOP Y t3_t4_Band_14	0.191	m/s^2	10.969	0.000	0	Pass
+Narrow Band TOP Y t3_t4_Band_15	0.278	m/s^2	8.699	0.000	0	Pass
+Narrow Band TOP Y t3_t4_Band_16	0.055	m/s^2	10.952	0.000	0	Pass
+Narrow Band TOP Y t3_t4_Band_17	0.213	m/s^2	9.362	0.000	0	Pass
+Narrow Band TOP Y t3_t4_Band_18	0.231	m/s^2	8.529	0.000	0	Pass
+Narrow Band TOP Y t3_t4_Band_19	0.147	m/s^2	8.554	0.000	0	Pass
+Narrow Band TOP Z t3_t4_Band_0	4.962	m/s^2	42.335	0.000	0	Pass
+Narrow Band TOP Z t3_t4_Band_1	3.606	m/s^2	90.679	0.000	0	Pass
+Narrow Band TOP Z t3_t4_Band_2	1.776	m/s^2	46.402	0.000	0	Pass
+Narrow Band TOP Z t3_t4_Band_3	1.144	m/s^2	30.943	0.000	0	Pass
+Narrow Band TOP Z t3_t4_Band_4	1.632	m/s^2	48.981	0.000	0	Pass
+Narrow Band TOP Z t3_t4_Band_5	3.434	m/s^2	79.068	0.000	0	Pass
+Narrow Band TOP Z t3_t4_Band_6	2.324	m/s^2	86.971	0.000	0	Pass
+Narrow Band TOP Z t3_t4_Band_7	1.521	m/s^2	55.565	0.000	0	Pass
+Narrow Band TOP Z t3_t4_Band_8	2.670	m/s^2	85.816	0.000	0	Pass
+Narrow Band TOP Z t3_t4_Band_9	2.960	m/s^2	90.556	0.000	0	Pass
+Narrow Band TOP Z t3_t4_Band_10	4.031	m/s^2	40.864	0.000	0	Pass
+Narrow Band TOP Z t3_t4_Band_11	1.557	m/s^2	41.050	0.000	0	Pass
+Narrow Band TOP Z t3_t4_Band_12	0.689	m/s^2	46.831	0.000	0	Pass
+Narrow Band TOP Z t3_t4_Band_13	0.525	m/s^2	36.071	0.000	0	Pass
+Narrow Band TOP Z t3_t4_Band_14	1.824	m/s^2	27.680	0.000	0	Pass
+Narrow Band TOP Z t3_t4_Band_15	0.348	m/s^2	26.493	0.000	0	Pass
+Narrow Band TOP Z t3_t4_Band_16	0.202	m/s^2	26.811	0.000	0	Pass
+Narrow Band TOP Z t3_t4_Band_17	1.107	m/s^2	58.673	0.000	0	Pass
+Narrow Band TOP Z t3_t4_Band_18	1.151	m/s^2	70.721	0.000	0	Pass
+Narrow Band TOP Z t3_t4_Band_19	0.692	m/s^2	35.317	0.000	0	Pass
+Narrow Band BOTT X t3_t4_Band_0	3.317	m/s^2	78.438	0.000	0	Pass
+Narrow Band BOTT X t3_t4_Band_1	4.715	m/s^2	110.627	0.000	0	Pass
+Narrow Band BOTT X t3_t4_Band_2	2.929	m/s^2	67.831	0.000	0	Pass
+Narrow Band BOTT X t3_t4_Band_3	4.816	m/s^2	36.854	0.000	0	Pass
+Narrow Band BOTT X t3_t4_Band_4	7.979	m/s^2	64.374	0.000	0	Pass
+Narrow Band BOTT X t3_t4_Band_5	9.810	m/s^2	63.080	0.000	0	Pass
+Narrow Band BOTT X t3_t4_Band_6	4.363	m/s^2	125.466	0.000	0	Pass
+Narrow Band BOTT X t3_t4_Band_7	1.776	m/s^2	58.708	0.000	0	Pass
+Narrow Band BOTT X t3_t4_Band_8	3.137	m/s^2	42.357	0.000	0	Pass
+Narrow Band BOTT X t3_t4_Band_9	4.307	m/s^2	46.695	0.000	0	Pass
+Narrow Band BOTT X t3_t4_Band_10	2.507	m/s^2	84.653	0.000	0	Pass
+Narrow Band BOTT X t3_t4_Band_11	0.908	m/s^2	67.222	0.000	0	Pass
+Narrow Band BOTT X t3_t4_Band_12	3.323	m/s^2	56.067	0.000	0	Pass
+Narrow Band BOTT X t3_t4_Band_13	2.874	m/s^2	15.886	0.000	0	Pass
+Narrow Band BOTT X t3_t4_Band_14	2.637	m/s^2	14.415	0.000	0	Pass
+Narrow Band BOTT X t3_t4_Band_15	4.481	m/s^2	8.449	0.000	0	Pass
+Narrow Band BOTT X t3_t4_Band_16	1.692	m/s^2	13.893	0.000	0	Pass
+Narrow Band BOTT X t3_t4_Band_17	2.420	m/s^2	28.098	0.000	0	Pass
+Narrow Band BOTT X t3_t4_Band_18	1.257	m/s^2	29.522	0.000	0	Pass
+Narrow Band BOTT X t3_t4_Band_19	1.415	m/s^2	14.626	0.000	0	Pass
+Narrow Band BOTT Y t3_t4_Band_0	0.427	m/s^2	37.494	0.000	0	Pass
+Narrow Band BOTT Y t3_t4_Band_1	1.521	m/s^2	94.225	0.000	0	Pass
+Narrow Band BOTT Y t3_t4_Band_2	4.415	m/s^2	76.938	0.000	0	Pass
+Narrow Band BOTT Y t3_t4_Band_3	4.697	m/s^2	47.829	0.000	0	Pass
+Narrow Band BOTT Y t3_t4_Band_4	4.248	m/s^2	166.828	0.000	0	Pass
+Narrow Band BOTT Y t3_t4_Band_5	7.359	m/s^2	180.369	0.000	0	Pass
+Narrow Band BOTT Y t3_t4_Band_6	5.172	m/s^2	194.501	0.000	0	Pass
+Narrow Band BOTT Y t3_t4_Band_7	3.039	m/s^2	85.026	0.000	0	Pass
+Narrow Band BOTT Y t3_t4_Band_8	4.968	m/s^2	119.687	0.000	0	Pass
+Narrow Band BOTT Y t3_t4_Band_9	5.179	m/s^2	100.404	0.000	0	Pass
+Narrow Band BOTT Y t3_t4_Band_10	3.401	m/s^2	96.810	0.000	0	Pass
+Narrow Band BOTT Y t3_t4_Band_11	1.441	m/s^2	58.523	0.000	0	Pass
+Narrow Band BOTT Y t3_t4_Band_12	5.529	m/s^2	84.219	0.000	0	Pass
+Narrow Band BOTT Y t3_t4_Band_13	5.756	m/s^2	79.716	0.000	0	Pass
+Narrow Band BOTT Y t3_t4_Band_14	5.444	m/s^2	88.882	0.000	0	Pass
+Narrow Band BOTT Y t3_t4_Band_15	8.604	m/s^2	53.201	0.000	0	Pass
+Narrow Band BOTT Y t3_t4_Band_16	2.719	m/s^2	129.842	0.000	0	Pass
+Narrow Band BOTT Y t3_t4_Band_17	3.807	m/s^2	107.537	0.000	0	Pass
+Narrow Band BOTT Y t3_t4_Band_18	1.170	m/s^2	106.569	0.000	0	Pass
+Narrow Band BOTT Y t3_t4_Band_19	1.219	m/s^2	70.861	0.000	0	Pass
+Narrow Band BOTT Z t3_t4_Band_0	7.414	m/s^2	62.516	0.000	0	Pass
+Narrow Band BOTT Z t3_t4_Band_1	2.813	m/s^2	63.877	0.000	0	Pass
+Narrow Band BOTT Z t3_t4_Band_2	1.413	m/s^2	100.759	0.000	0	Pass
+Narrow Band BOTT Z t3_t4_Band_3	1.055	m/s^2	73.638	0.000	0	Pass
+Narrow Band BOTT Z t3_t4_Band_4	4.730	m/s^2	125.888	0.000	0	Pass
+Narrow Band BOTT Z t3_t4_Band_5	6.254	m/s^2	148.492	0.000	0	Pass
+Narrow Band BOTT Z t3_t4_Band_6	8.097	m/s^2	188.120	0.000	0	Pass
+Narrow Band BOTT Z t3_t4_Band_7	5.954	m/s^2	120.923	0.000	0	Pass
+Narrow Band BOTT Z t3_t4_Band_8	4.692	m/s^2	125.125	0.000	0	Pass
+Narrow Band BOTT Z t3_t4_Band_9	4.794	m/s^2	160.922	0.000	0	Pass
+Narrow Band BOTT Z t3_t4_Band_10	3.010	m/s^2	133.574	0.000	0	Pass
+Narrow Band BOTT Z t3_t4_Band_11	2.352	m/s^2	98.994	0.000	0	Pass
+Narrow Band BOTT Z t3_t4_Band_12	5.408	m/s^2	107.761	0.000	0	Pass
+Narrow Band BOTT Z t3_t4_Band_13	6.293	m/s^2	117.685	0.000	0	Pass
+Narrow Band BOTT Z t3_t4_Band_14	5.049	m/s^2	108.747	0.000	0	Pass
+Narrow Band BOTT Z t3_t4_Band_15	5.438	m/s^2	89.969	0.000	0	Pass
+Narrow Band BOTT Z t3_t4_Band_16	1.121	m/s^2	162.826	0.000	0	Pass
+Narrow Band BOTT Z t3_t4_Band_17	2.639	m/s^2	119.910	0.000	0	Pass
+Narrow Band BOTT Z t3_t4_Band_18	1.492	m/s^2	139.891	0.000	0	Pass
+Narrow Band BOTT Z t3_t4_Band_19	1.595	m/s^2	90.479	0.000	0	Pass
+Narrow Band REAR X t3_t4_Band_0	2.657	m/s^2	82.135	0.000	0	Pass
+Narrow Band REAR X t3_t4_Band_1	1.970	m/s^2	83.354	0.000	0	Pass
+Narrow Band REAR X t3_t4_Band_2	3.659	m/s^2	23.394	0.000	0	Pass
+Narrow Band REAR X t3_t4_Band_3	1.092	m/s^2	23.267	0.000	0	Pass
+Narrow Band REAR X t3_t4_Band_4	2.722	m/s^2	61.521	0.000	0	Pass
+Narrow Band REAR X t3_t4_Band_5	2.765	m/s^2	69.482	0.000	0	Pass
+Narrow Band REAR X t3_t4_Band_6	0.855	m/s^2	38.462	0.000	0	Pass
+Narrow Band REAR X t3_t4_Band_7	0.823	m/s^2	45.713	0.000	0	Pass
+Narrow Band REAR X t3_t4_Band_8	4.210	m/s^2	65.975	0.000	0	Pass
+Narrow Band REAR X t3_t4_Band_9	1.342	m/s^2	71.525	0.000	0	Pass
+Narrow Band REAR X t3_t4_Band_10	2.123	m/s^2	60.264	0.000	0	Pass
+Narrow Band REAR X t3_t4_Band_11	1.223	m/s^2	30.293	0.000	0	Pass
+Narrow Band REAR X t3_t4_Band_12	0.610	m/s^2	18.137	0.000	0	Pass
+Narrow Band REAR X t3_t4_Band_13	0.859	m/s^2	17.384	0.000	0	Pass
+Narrow Band REAR X t3_t4_Band_14	0.655	m/s^2	26.907	0.000	0	Pass
+Narrow Band REAR X t3_t4_Band_15	0.322	m/s^2	26.019	0.000	0	Pass
+Narrow Band REAR X t3_t4_Band_16	0.876	m/s^2	40.345	0.000	0	Pass
+Narrow Band REAR X t3_t4_Band_17	0.483	m/s^2	40.518	0.000	0	Pass
+Narrow Band REAR X t3_t4_Band_18	0.480	m/s^2	54.678	0.000	0	Pass
+Narrow Band REAR X t3_t4_Band_19	0.215	m/s^2	25.834	0.000	0	Pass
+Narrow Band REAR Y t3_t4_Band_0	0.203	m/s^2	48.668	0.000	0	Pass
+Narrow Band REAR Y t3_t4_Band_1	0.853	m/s^2	105.974	0.000	0	Pass
+Narrow Band REAR Y t3_t4_Band_2	0.420	m/s^2	55.921	0.000	0	Pass
+Narrow Band REAR Y t3_t4_Band_3	1.965	m/s^2	33.001	0.000	0	Pass
+Narrow Band REAR Y t3_t4_Band_4	0.853	m/s^2	76.883	0.000	0	Pass
+Narrow Band REAR Y t3_t4_Band_5	1.198	m/s^2	75.338	0.000	0	Pass
+Narrow Band REAR Y t3_t4_Band_6	3.021	m/s^2	72.378	0.000	0	Pass
+Narrow Band REAR Y t3_t4_Band_7	0.606	m/s^2	55.804	0.000	0	Pass
+Narrow Band REAR Y t3_t4_Band_8	1.297	m/s^2	66.481	0.000	0	Pass
+Narrow Band REAR Y t3_t4_Band_9	1.707	m/s^2	56.902	0.000	0	Pass
+Narrow Band REAR Y t3_t4_Band_10	2.001	m/s^2	48.683	0.000	0	Pass
+Narrow Band REAR Y t3_t4_Band_11	0.400	m/s^2	29.390	0.000	0	Pass
+Narrow Band REAR Y t3_t4_Band_12	0.140	m/s^2	24.410	0.000	0	Pass
+Narrow Band REAR Y t3_t4_Band_13	0.508	m/s^2	22.483	0.000	0	Pass
+Narrow Band REAR Y t3_t4_Band_14	0.216	m/s^2	20.531	0.000	0	Pass
+Narrow Band REAR Y t3_t4_Band_15	0.862	m/s^2	19.800	0.000	0	Pass
+Narrow Band REAR Y t3_t4_Band_16	0.109	m/s^2	40.378	0.000	0	Pass
+Narrow Band REAR Y t3_t4_Band_17	0.692	m/s^2	49.550	0.000	0	Pass
+Narrow Band REAR Y t3_t4_Band_18	0.838	m/s^2	35.054	0.000	0	Pass
+Narrow Band REAR Y t3_t4_Band_19	0.756	m/s^2	25.688	0.000	0	Pass
+Narrow Band REAR Z t3_t4_Band_0	1.170	m/s^2	81.287	0.000	0	Pass
+Narrow Band REAR Z t3_t4_Band_1	6.085	m/s^2	119.887	0.000	0	Pass
+Narrow Band REAR Z t3_t4_Band_2	2.416	m/s^2	67.401	0.000	0	Pass
+Narrow Band REAR Z t3_t4_Band_3	3.510	m/s^2	146.700	0.000	0	Pass
+Narrow Band REAR Z t3_t4_Band_4	1.636	m/s^2	103.249	0.000	0	Pass
+Narrow Band REAR Z t3_t4_Band_5	4.989	m/s^2	106.648	0.000	0	Pass
+Narrow Band REAR Z t3_t4_Band_6	2.647	m/s^2	46.180	0.000	0	Pass
+Narrow Band REAR Z t3_t4_Band_7	0.933	m/s^2	61.876	0.000	0	Pass
+Narrow Band REAR Z t3_t4_Band_8	1.587	m/s^2	83.180	0.000	0	Pass
+Narrow Band REAR Z t3_t4_Band_9	1.244	m/s^2	93.174	0.000	0	Pass
+Narrow Band REAR Z t3_t4_Band_10	2.730	m/s^2	45.740	0.000	0	Pass
+Narrow Band REAR Z t3_t4_Band_11	0.806	m/s^2	58.691	0.000	0	Pass
+Narrow Band REAR Z t3_t4_Band_12	0.639	m/s^2	46.615	0.000	0	Pass
+Narrow Band REAR Z t3_t4_Band_13	0.910	m/s^2	44.666	0.000	0	Pass
+Narrow Band REAR Z t3_t4_Band_14	0.854	m/s^2	49.046	0.000	0	Pass
+Narrow Band REAR Z t3_t4_Band_15	0.866	m/s^2	29.376	0.000	0	Pass
+Narrow Band REAR Z t3_t4_Band_16	0.942	m/s^2	47.870	0.000	0	Pass
+Narrow Band REAR Z t3_t4_Band_17	0.404	m/s^2	66.754	0.000	0	Pass
+Narrow Band REAR Z t3_t4_Band_18	0.945	m/s^2	83.076	0.000	0	Pass
+Narrow Band REAR Z t3_t4_Band_19	0.529	m/s^2	49.072	0.000	0	Pass
+(T4-T5) Rattle Detection	 	 	 	 	 	 
+Test Summary						Pass
+ACC_REAR X_Total_t4-t5	212.996	m/s^2	297.500	0.000	0	Pass
+ACC_REAR Y_Total_t4-t5	224.356	m/s^2	336.616	0.000	0	Pass
+ACC_REAR Z_Total_t4-t5	168.859	m/s^2	314.470	0.000	0	Pass
+(T3-T5) Noise Analysis	 	 	 	 	 	 
+Test Summary						Pass
+MIC_Total t3_t4	51.723	dB	683.189	0.000	0	Pass
+MIC_Octave Band 25Hz t3_t4	25.378	dB	286.501	0.000	0	Pass
+MIC_Octave Band 32Hz t3_t4	24.379	dB	409.870	0.000	0	Pass
+MIC_Octave Band 40Hz t3_t4	24.797	dB	264.294	0.000	0	Pass
+MIC_Octave Band 50Hz t3_t4	21.546	dB	270.291	0.000	0	Pass
+MIC_Octave Band 63Hz t3_t4	20.472	dB	293.141	0.000	0	Pass
+MIC_Octave Band 80Hz t3_t4	21.653	dB	244.512	0.000	0	Pass
+MIC_Octave Band 100Hz t3_t4	25.590	dB	258.355	0.000	0	Pass
+MIC_Octave Band 125Hz t3_t4	31.926	dB	473.450	0.000	0	Pass
+MIC_Octave Band 160Hz t3_t4	35.683	dB	469.211	0.000	0	Pass
+MIC_Octave Band 200Hz t3_t4	20.319	dB	237.552	0.000	0	Pass
+MIC_Octave Band 250Hz t3_t4	35.910	dB	389.145	0.000	0	Pass
+MIC_Octave Band 315Hz t3_t4	44.212	dB	490.572	0.000	0	Pass
+MIC_Octave Band 400Hz t3_t4	46.003	dB	523.543	0.000	0	Pass
+MIC_Octave Band 500Hz t3_t4	39.946	dB	465.970	0.000	0	Pass
+MIC_Octave Band 630Hz t3_t4	46.146	dB	485.390	0.000	0	Pass
+MIC_Octave Band 800Hz t3_t4	52.417	dB	543.311	0.000	0	Pass
+MIC_Octave Band 1000Hz t3_t4	50.496	dB	552.366	0.000	0	Pass
+MIC_Octave Band 1250Hz t3_t4	54.657	dB	628.351	0.000	0	Pass
+MIC_Octave Band 1600Hz t3_t4	56.971	db	643.158	0.000	0	Pass
+MIC_Octave Band 2000Hz t3_t4	46.185	dB	578.828	0.000	0	Pass
+MIC_Octave Band 2500Hz t3_t4	48.405	dB	576.540	0.000	0	Pass
+MIC_Octave Band 3150Hz t3_t4	50.440	dB	579.017	0.000	0	Pass
+MIC_Octave Band 4000Hz t3_t4	45.909	dB	513.290	0.000	0	Pass
+MIC_Octave Band 5000Hz t3_t4	41.638	dB	522.082	0.000	0	Pass
+Test Summary						Pass
+MIC_Total t4_t5	67.332	dB	660.100	0.000	0	Pass
+(T6-T7) Shut down noise	 	 	 	 	 	 
+Test Summary						Pass
+MIC_Total t6_t7	47.048	dB	655.500	0.000	0	Pass
+[RESULTS TEXT END]
+
+
+[UTT TEXT]
+[UTT END]
+
+[TIMESTAMPS]
+ta	=	16:40:27.675 27/08/2021
+T0	=	16:40:51.152 27/08/2021
+T1	=	16:41:02.549 27/08/2021
+T2	=	16:40:58.721 27/08/2021
+T3	=	16:41:03.149 27/08/2021
+T4	=	16:41:06.782 27/08/2021
+T5	=	16:41:11.882 27/08/2021
+T6	=	16:41:12.752 27/08/2021
+T7	=	16:41:20.841 27/08/2021
+Time to pressure (t0-t2):	7.568
+Stable run time(t3-t4):	3.633
+Rattle time (t4-t5):	5.100
+[TIMESTAMPS END]
