@@ -1,26 +1,20 @@
 {% extends 'base.html' %}
+{% block title %} Quality Inspection with audio {% endblock %}
+{% block content %}
+    <div class = "container">
+        <h2> Index Page </h2>
 
-{% block head %}
-<title>Master Page</title>
-{% endblock %} 
+    <ul>
+        <br/><li>Get wav files from source to target data</li>
+        <br/><li>Extract spectrograms from wav files</li>
+        <br/><li>Load training images</li>
+        <br/><li>Build autoencoder</li>
+        <br/><li>Set threshold</li>
+        <br/><li>Make an inference</li>
+        <br/><li>Select a day and make inference</li>
+    </ul>
+    </div>
 
-{% block body %}
-<div class="content"></div>
-<h1 style="text-align: center">Master</h1>
-<table>
-    <tr></tr>
-    <td>
-        <a href="/copy/">1. Copy audio files</a>
-    </td>
-    <tr></tr>
-    <td>
-        <a href="">2. Build autoencoder</a>
-    </td>    
-    <tr></tr>
 
-</table>
-<form action="/" method = "POST">
-    <input type="text" name="content" id="content">
-    <input type="submit" value="Add">
-</form>
+
 {% endblock %}

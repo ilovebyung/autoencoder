@@ -1,6 +1,8 @@
 .vscode/settings.json
 # ignore all logs
 *.log
+# ignore test data
+*.db
 # ignore images
 *.jpg
 # ignore audio
