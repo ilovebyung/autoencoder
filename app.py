@@ -1,16 +1,22 @@
 from datetime import datetime
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, flash
 from flask.wrappers import Request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from werkzeug.utils import secure_filename
+import os
 
+'''
+model module
+'''
 app = Flask(__name__)
+# locate database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+# suppress error messages
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 # initialize the database
 db = SQLAlchemy(app)
-
-# create table
 
 
 class TB(db.Model):
@@ -20,6 +26,36 @@ class TB(db.Model):
 
     def __repr__(self):
         return '<TB %r>' % self.id
+
+
+# Get current path
+path = os.getcwd()
+# file Upload
+UPLOAD_FOLDER = os.path.join(path, 'uploads')
+
+'''
+upload module
+'''
+app.secret_key = "M@hle123"
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+
+# Get current path
+path = os.getcwd()
+# file Upload
+UPLOAD_FOLDER = os.path.join(path, 'upload_folder')
+
+# Make directory if uploads is not exists
+if not os.path.isdir(UPLOAD_FOLDER):
+    os.mkdir(UPLOAD_FOLDER)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+# Allowed extension you can set your own
+ALLOWED_EXTENSIONS = set(['wav'])
+
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @app.route('/')
@@ -77,6 +113,32 @@ def delete(id):
         return redirect('/query')
     except:
         return "an error has occured"
+
+
+@app.route('/upload', methods=["POST", "GET"])
+def upload():
+    title = "Copy WAV files from source to target data"
+    if request.method == 'POST':
+        if 'files[]' not in request.files:
+            flash('No file part')
+            # return redirect(request.url)
+            return redirect('/upload')
+
+        files = request.files.getlist('files[]')
+
+        for file in files:
+            if file and allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        flash('WAV File(s) successfully uploaded')
+    return render_template("upload.html", title=title)
+
+
+@app.route('/date')
+def date():
+    title = "Select a date and make inference"
+    return render_template("about.html", title=title)
 
 
 @app.route('/about')
