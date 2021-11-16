@@ -15,14 +15,10 @@
   	{% endwith %}
  
 <form method="post" action="/upload" enctype="multipart/form-data"> 
-    <dl>
-		<p>
-			<input type="file" name="files[]" multiple="true" autocomplete="off" required>
-		</p>
-    </dl>
-    <p>
-		<input type="submit" value="Submit">
-	</p>
+	<input type="file" class="btn btn-outline-secondary" name="files[]" multiple="true" autocomplete="off" required >
+	<br/>
+	<br/>
+	<input type="submit" class="btn btn-secondary btn-sm" value="Submit">
 </form>
 </div>
 {% endblock %}

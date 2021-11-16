@@ -1,7 +1,11 @@
 from datetime import datetime
-from flask import Flask, render_template, url_for, request, redirect, flash
+from flask import Flask, render_template, url_for, request, redirect, flash, session
 from flask.wrappers import Request
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import FlaskForm
+from wtforms.fields.html5 import DateField
+from wtforms.validators import DataRequired
+from wtforms import validators, SubmitField
 from datetime import datetime
 from werkzeug.utils import secure_filename
 import os
@@ -56,6 +60,19 @@ ALLOWED_EXTENSIONS = set(['wav'])
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+'''
+date_picker module
+'''
+
+
+class InfoForm(FlaskForm):
+    start_date = DateField('start_date', format='%Y-%m-%d',
+                           validators=(validators.DataRequired(),))
+    end_date = DateField('end_date', format='%Y-%m-%d',
+                         validators=(validators.DataRequired(),))
+    submit = SubmitField('Submit')
 
 
 @app.route('/')
@@ -135,10 +152,24 @@ def upload():
     return render_template("upload.html", title=title)
 
 
-@app.route('/date')
+@app.route('/date', methods=["POST", "GET"])
 def date():
-    title = "Select a date and make inference"
-    return render_template("about.html", title=title)
+    title = "Select date range"
+    # return render_template("date_picker.html", title=title)
+    form = InfoForm()
+    if form.validate_on_submit():
+        session['start_date'] = form.start_date.data
+        session['end_date'] = form.end_date.data
+        return redirect('date')
+    return render_template('date_picker.html', title=title, form=form)
+
+
+@app.route('/date_result', methods=["POST", "GET"])
+def date_result():
+    title = "date_result"
+    start_date = session['start_date']
+    end_date = session['start_date']
+    return render_template('date_result.html')
 
 
 @app.route('/about')
