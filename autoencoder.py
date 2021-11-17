@@ -4,8 +4,6 @@
 3. Build autoencoder 
 4. Set threshold
 5. Make an inference
-6. [Web Interface] Copy wav files from source to target data  
-7. [Web Interface] Select a day and make inference  
 '''
 
 from tensorflow.python.keras.layers.core import Dropout
@@ -22,8 +20,6 @@ import os
 import pathlib
 import librosa
 import librosa.display
-# from PIL import Image, ImageOps
-
 
 '''
 Read wav files from SOURCE folder, extract spectrograms in JPG format, and save in TARGET folder
@@ -150,7 +146,7 @@ class Autoencoder(Model):
 '''
 
 
-def threshold(autoencoder, x_train):
+def model_threshold(autoencoder, x_train):
     encoded_imgs = autoencoder.encoder(x_train).numpy()
     decoded_imgs = autoencoder.decoder(encoded_imgs).numpy()
     loss = tf.keras.losses.mse(decoded_imgs, x_train)
@@ -226,30 +222,51 @@ if __name__ == "__main__":
     autoencoder.save('./model/')
     autoencoder = keras.models.load_model('./model/')
 
-    # calculate loss and threshold
-    encoded_imgs = autoencoder.encoder(x_train).numpy()
-    decoded_imgs = autoencoder.decoder(encoded_imgs).numpy()
+    # load autoencoder model
+    if autoencoder is None:
+        autoencoder = Autoencoder(latent_dim=64 * 2)
+        autoencoder = keras.models.load_model('./model/')
+
+    # '''
+    # 4. Set threshold
+    # '''
+    # # get statistics for each spectrogram
+    # sample = plt.imread('c:/data/sample.jpg')
+    # plt.imshow(sample)
+    # sample = pathlib.Path('c:/data/sample.jpg')
+    # sample_loss = spectrogram_loss(autoencoder, sample)
+
+    # if sample_loss > threshold:
+    #     print(
+    #         f'Loss is greater than threshold \
+    #           Sample Loss: {sample_loss} \
+    #           Threshold: {threshold} ')
+    # else:
+    #     print(
+    #         f'Loss is lesser than threshold \
+    #           Sample Loss: {sample_loss} \
+    #           Threshold: {threshold} ')
 
     '''
     4. Set threshold
     '''
-    loss = tf.keras.losses.mse(decoded_imgs, x_train)
-    threshold = np.mean(loss) + np.std(loss)
+    threshold = model_threshold(autoencoder, x_train)
+    # loss = tf.keras.losses.mse(decoded_imgs, x_train)
+    # threshold = np.mean(loss) + np.std(loss)
     print("Loss Threshold: ", threshold)
 
     # load autoencoder model
     if autoencoder is None:
         autoencoder = keras.models.load_model('./model/')
 
-    threshold = np.mean(loss) + np.std(loss)
+    # threshold = np.mean(loss) + np.std(loss)
 
     '''
     5. Make an inference
     '''
-    file = 'c:/data/sample_0.jpg'   # good
-    file = 'c:/data/sample_1.jpg'   # anomaly
-    file = 'c:/data/sample_2.jpg'   # bad
     # get statistics for each spectrogram
+    # file = 'c:/data/Ansel_Adams.jpg'
+    file = 'c:/data/sample.jpg'
     sample = plt.imread(file)
     plt.imshow(sample)
     sample = pathlib.Path(file)
@@ -257,11 +274,11 @@ if __name__ == "__main__":
 
     if sample_loss > threshold:
         print(
-            f'Loss is greater than threshold \n \
+            f'Loss is bigger than threshold \n \
               Sample Loss: {sample_loss} \n \
               Threshold: {threshold} ')
     else:
         print(
-            f'Loss is lesser than threshold \n \
+            f'Loss is smaller than threshold \n \
               Sample Loss: {sample_loss} \n \
               Threshold: {threshold} ')

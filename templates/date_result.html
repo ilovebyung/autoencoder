@@ -3,10 +3,26 @@
 
 {% block content %}
 <div class = "container">
-	<h2> {{title}} </h2>
+	<h4> Inspections between {{startdate}} and {{enddate}} </h4>
 	<br/>
-    Start Date: {{session['startdate']}}	<br/>
-    End Date: {{session['enddate']}}
+    <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">NAME</th>
+                    <th scope="col">Date Created</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in rows%}
+                <tr>
+                    <td>{{row.id}} </td>
+                    <td>{{row.name}}</td>
+                    <td>{{row.date_created}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+    </table>
 </div>
 {% endblock %}
 
