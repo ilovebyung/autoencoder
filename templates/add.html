@@ -6,14 +6,24 @@
         <h2> Add </h2>
         <form action="/add" method="POST">
             <input type="text" placeholder="Add Name" name="name">
-            <button type="submit" placeholder="add">Submit</button>
+            <button type="submit" placeholder="add" class="btn btn-secondary btn-sm">Submit</button>
         </form>
 
         <br/>
-        {% for row in rows %} 
-            <ul>
-                <li> {{row.id}} {{row.name}} {{row.date_created}} </li>
-            </ul>
-        {% endfor %}
-    </div>
+        <table class="table">
+            <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Date Created</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for row in rows%}
+                <tr>
+                    <td>{{row.name}} </td>
+                    <td>{{row.date_created}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>  
 {% endblock %}

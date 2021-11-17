@@ -1,4 +1,3 @@
-from datetime import datetime
 from flask import Flask, render_template, url_for, request, redirect, flash, session
 from flask.wrappers import Request
 from flask_sqlalchemy import SQLAlchemy
@@ -7,6 +6,7 @@ from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired
 from wtforms import validators, SubmitField
 from datetime import datetime
+from dateutil import parser
 from werkzeug.utils import secure_filename
 import os
 
@@ -68,11 +68,16 @@ date_picker module
 
 
 class InfoForm(FlaskForm):
-    start_date = DateField('start_date', format='%Y-%m-%d',
-                           validators=(validators.DataRequired(),))
-    end_date = DateField('end_date', format='%Y-%m-%d',
-                         validators=(validators.DataRequired(),))
+    startdate = DateField('Start Date', format='%Y-%m-%d',
+                          validators=(validators.DataRequired(),))
+    enddate = DateField('End Date', format='%Y-%m-%d',
+                        validators=(validators.DataRequired(),))
     submit = SubmitField('Submit')
+
+
+start = "Tue, 16 Nov 2021 00:00:00 GMT"
+end = "Tue, 16 Nov 2021 00:00:00 GMT"
+dt = parser.parse(start)
 
 
 @app.route('/')
@@ -158,17 +163,17 @@ def date():
     # return render_template("date_picker.html", title=title)
     form = InfoForm()
     if form.validate_on_submit():
-        session['start_date'] = form.start_date.data
-        session['end_date'] = form.end_date.data
-        return redirect('date')
+        session['startdate'] = form.startdate.data
+        session['enddate'] = form.enddate.data
+        return redirect('date_result')
     return render_template('date_picker.html', title=title, form=form)
 
 
 @app.route('/date_result', methods=["POST", "GET"])
 def date_result():
     title = "date_result"
-    start_date = session['start_date']
-    end_date = session['start_date']
+    startdate = session['startdate']
+    enddate = session['enddate']
     return render_template('date_result.html')
 
 

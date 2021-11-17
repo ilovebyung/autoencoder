@@ -6,15 +6,28 @@
         <br/>
         <form action = "/query" method="POST">
 
-            {% for row in rows%}
-            <ul> 
-                {{row.id}} 
-                {{row.name}} 
-                    <li> <a href="/update/{{row.id}}" class="btn btn-secondary btn-sm"> update</a>
-                    <a href="/delete/{{row.id}}" class="btn btn-danger btn-sm"> delete</a>
-                    </li>
-            </ul>
-            {% endfor %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Date Created</th>
+                        <th scope="col">Handle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in rows%}
+                    <tr>
+                        <td>{{row.name}} </td>
+                        <td>{{row.date_created}}</td>
+                        <td>         
+                            <a href="/update/{{row.id}}" class="btn btn-secondary btn-sm"> Update</a>
+                            <a href="/delete/{{row.id}}" class="btn btn-danger btn-sm"> Delete</a>
+                        </td>  
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+        </table>
         </form>
 
     </div>

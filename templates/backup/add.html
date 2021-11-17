@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %} Add {% endblock %}
+
+{% block content %}
+    <div class = "container">
+        <h2> Add </h2>
+        <form action="/add" method="POST">
+            <input type="text" placeholder="Add Name" name="name">
+            <button type="submit" placeholder="add">Submit</button>
+        </form>
+
+        <br/>
+        {% for row in rows %} 
+            <ul>
+                <li> {{row.id}} {{row.name}} {{row.date_created}} </li>
+            </ul>
+        {% endfor %}
+    </div>
+{% endblock %}

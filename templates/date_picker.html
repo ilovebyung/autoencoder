@@ -5,12 +5,12 @@
 <div class = "container">
 	<h2> {{title}} </h2>
 	<br/>
-    <form action="date_result" method='POST' name="date_picker" class="btn btn-outline-secondary">
+    <form action="" method='POST' class="btn btn-outline-secondary">
         {{ form.csrt_token }}
-        {{ form.start_date.label }}{{form.start_date(class='datepicker')}} {{form.hidden_tag()}}
-        {{ form.end_date.label }}{{form.end_date(class='datepicker')}} {{form.hidden_tag()}}     
+        <br/><p>{{ form.startdate.label }}</p>   {{form.startdate(class='datepicker')}} {{form.hidden_tag()}}
+        <br/><br/><p>{{ form.enddate.label }}</p>     {{form.enddate(class='datepicker')}} {{form.hidden_tag()}}     
         <br/><br/>
-        {{form.submit() }}
+        {{form.submit()}}
     </form>
 </div>
 {% endblock %}
