@@ -265,8 +265,9 @@ if __name__ == "__main__":
     5. Make an inference
     '''
     # get statistics for each spectrogram
-    # file = 'c:/data/Ansel_Adams.jpg'
-    file = 'c:/data/sample.jpg'
+    file = 'c:/data/sample_0.jpg'
+    file = 'c:/data/sample_1.jpg'
+    file = 'c:/data/sample_2.jpg'
     sample = plt.imread(file)
     plt.imshow(sample)
     sample = pathlib.Path(file)

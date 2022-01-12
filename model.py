@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -5,7 +6,6 @@ from datetime import datetime
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# initialize the database
 db = SQLAlchemy(app)
 
 
@@ -27,6 +27,13 @@ class Setting(db.Model):
         return '<Parameter %r>' % self.id
 
 
-'''
-    db.create_all()
-'''
+def create_database(app):
+    if not os.path.exists('database.db'):
+        db.create_all(app=app)
+        print('database created!')
+    else:
+        print('database exists')
+
+
+if __name__ == "__main__":
+    create_database(app)

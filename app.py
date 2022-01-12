@@ -1,92 +1,38 @@
 from flask import Flask, render_template, url_for, request, redirect, flash, session
 from flask.wrappers import Request
 from flask_sqlalchemy import SQLAlchemy
-# from flask_wtf import FlaskForm
-# from wtforms.fields.html5 import DateField
-# from wtforms.validators import DataRequired
-# from wtforms import validators, SubmitField
 from datetime import datetime, time
 from dateutil import parser
 from werkzeug.utils import secure_filename
 import os
 from dateutil import parser
 from utility import allowed_file, InfoForm, UPLOAD_FOLDER
+from model import app, db, TB, Setting
 
 '''
 database 
 '''
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# initialize the database
-db = SQLAlchemy(app)
-
-
-class TB(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    date_created = db.Column(db.DateTime, default=datetime.utcnow)
-
-    def __repr__(self):
-        return '<TB %r>' % self.id
-
-
-class Setting(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    value = db.Column(db.Integer, nullable=False)
-    date_created = db.Column(db.DateTime, default=datetime.utcnow)
-
-    def __repr__(self):
-        return '<Parameter %r>' % self.id
-
-# # Get current path
-# path = os.getcwd()
-# # file Upload
-# UPLOAD_FOLDER = os.path.join(path, 'uploads')
-
+# app = Flask(__name__)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# db = SQLAlchemy(app)
 
 '''
 upload module
 '''
-app.secret_key = "M@hle123"
+app.secret_key = "IOT4M@hle"
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
-# # Get current path
-# path = os.getcwd()
-# # file Upload
-# UPLOAD_FOLDER = os.path.join(path, 'upload_folder')
+# Get current path
+path = os.getcwd()
+# file Upload
+UPLOAD_FOLDER = os.path.join(path, 'upload_folder')
 
-# # Make directory if uploads is not exists
-# if not os.path.isdir(UPLOAD_FOLDER):
-#     os.mkdir(UPLOAD_FOLDER)
+# Make directory if uploads is not exists
+if not os.path.isdir(UPLOAD_FOLDER):
+    os.mkdir(UPLOAD_FOLDER)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-# # Allowed extension you can set your own
-# ALLOWED_EXTENSIONS = set(['wav'])
-
-
-# def allowed_file(filename):
-#     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
-# '''
-# date_picker module
-# '''
-
-
-# class InfoForm(FlaskForm):
-#     startdate = DateField('Start Date', format='%Y-%m-%d',
-#                           validators=(validators.DataRequired(),))
-#     enddate = DateField('End Date', format='%Y-%m-%d',
-#                         validators=(validators.DataRequired(),))
-#     submit = SubmitField('Submit')
-
-
-# start = "Tue, 16 Nov 2021 00:00:00 GMT"
-# end = "Tue, 16 Nov 2021 00:00:00 GMT"
-# dt = parser.parse(start)
 
 
 @app.route('/')
@@ -151,7 +97,7 @@ def upload():
     title = "Copy WAV files from source to target data"
     if request.method == 'POST':
         if 'files[]' not in request.files:
-            flash('No file part')
+            flash('No file part', category='error')
             # return redirect(request.url)
             return redirect('/upload')
 
@@ -191,20 +137,26 @@ def date_result():
 
 @app.route('/setting', methods=["POST", "GET"])
 def setting():
-    title = "Set Threshold: Most recent value is applied"
+    title = "Set Threshold: The most recent value is applied"
     if request.method == "POST":
         row = request.form['value']
         new_row = Setting(value=row)
+
+        if len(row) < 1:
+            flash("Type in a valid value", category="error")
+            return redirect('/setting')
         # commit to database
         try:
             db.session.add(new_row)
             db.session.commit()
             return redirect('/setting')
         except:
-            return "an error has occured"
+            flash("An unknown error has occurred.", category='error')
+            return redirect('/setting')
     else:
         rows = Setting.query.order_by(Setting.date_created)
         return render_template("setting.html", title=title, rows=rows)
+
 
 @app.route('/delete_setting/<int:id>', methods=["POST", "GET"])
 def delete_setting(id):
@@ -214,4 +166,5 @@ def delete_setting(id):
         db.session.commit()
         return redirect('/setting')
     except:
-        return "an error has occured"
+        flash("A deletion error has occurred.", category='error')
+        return redirect('/setting')
