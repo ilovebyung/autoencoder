@@ -20,6 +20,7 @@ import os
 import pathlib
 import librosa
 import librosa.display
+import concurrent.futures
 
 '''
 Read wav files from SOURCE folder, extract spectrograms in JPG format, and save in TARGET folder
@@ -34,49 +35,51 @@ class SpectrogramExtractor:
     def extract(self, SOURCE, TARGET, FIG_SIZE):
         os.chdir(SOURCE)
         for file in os.listdir(SOURCE):
-            # load audio file with Librosa
-            signal, sample_rate = librosa.load(file, sr=22050)
+            # check file extention
+            if file.endswith(".wav"):
+                # load audio file with Librosa
+                signal, sample_rate = librosa.load(file, sr=22050)
 
-            # perform Fourier transform (FFT -> power spectrum)
-            fft = np.fft.fft(signal)
+                # perform Fourier transform (FFT -> power spectrum)
+                fft = np.fft.fft(signal)
 
-            # calculate abs values on complex numbers to get magnitude
-            spectrum = np.abs(fft)
+                # calculate abs values on complex numbers to get magnitude
+                spectrum = np.abs(fft)
 
-            # create frequency variable
-            f = np.linspace(0, sample_rate, len(spectrum))
+                # create frequency variable
+                f = np.linspace(0, sample_rate, len(spectrum))
 
-            # take half of the spectrum and frequency
-            left_spectrum = spectrum[:int(len(spectrum)/2)]
-            left_f = f[:int(len(spectrum)/2)]
+                # take half of the spectrum and frequency
+                left_spectrum = spectrum[:int(len(spectrum)/2)]
+                left_f = f[:int(len(spectrum)/2)]
 
-            # STFT -> spectrogram
-            hop_length = 512  # in num. of samples
-            n_fft = 2048  # window in num. of samples
+                # STFT -> spectrogram
+                hop_length = 512  # in num. of samples
+                n_fft = 2048  # window in num. of samples
 
-            # calculate duration hop length and window in seconds
-            hop_length_duration = float(hop_length)/sample_rate
-            n_fft_duration = float(n_fft)/sample_rate
+                # calculate duration hop length and window in seconds
+                hop_length_duration = float(hop_length)/sample_rate
+                n_fft_duration = float(n_fft)/sample_rate
 
-            # perform stft
-            stft = librosa.stft(signal, n_fft=n_fft, hop_length=hop_length)
+                # perform stft
+                stft = librosa.stft(signal, n_fft=n_fft, hop_length=hop_length)
 
-            # calculate abs values on complex numbers to get magnitude
-            spectrogram = np.abs(stft)  # np.abs(stft) ** 2
+                # calculate abs values on complex numbers to get magnitude
+                spectrogram = np.abs(stft)  # np.abs(stft) ** 2
 
-            # apply logarithm to cast amplitude to Decibels
-            log_spectrogram = librosa.amplitude_to_db(spectrogram)
+                # apply logarithm to cast amplitude to Decibels
+                log_spectrogram = librosa.amplitude_to_db(spectrogram)
 
-            # Matplotlib plots: removing axis, legends and white spaces
-            plt.figure(figsize=FIG_SIZE)
-            plt.axis('off')
-            librosa.display.specshow(
-                log_spectrogram, sr=sample_rate, hop_length=hop_length)
+                # Matplotlib plots: removing axis, legends and white spaces
+                plt.figure(figsize=FIG_SIZE)
+                plt.axis('off')
+                librosa.display.specshow(
+                    log_spectrogram, sr=sample_rate, hop_length=hop_length)
 
-            data_path = pathlib.Path(TARGET)
-            file_name = f'{file[0:-4]}.jpg'
-            full_name = str(pathlib.Path.joinpath(data_path, file_name))
-            plt.savefig(str(full_name), bbox_inches='tight', pad_inches=0)
+                data_path = pathlib.Path(TARGET)
+                file_name = f'{file[0:-4]}.jpg'
+                full_name = str(pathlib.Path.joinpath(data_path, file_name))
+                plt.savefig(str(full_name), bbox_inches='tight', pad_inches=0)
 
 
 '''
@@ -95,16 +98,18 @@ def create_training_data(data_path, size=224):
 
     # iterate over each image
     for image in os.listdir(data_path):
-        try:
-            data_path = pathlib.Path(data_path)
-            full_name = str(pathlib.Path.joinpath(data_path, image))
-            data = cv2.imread(str(full_name), 0)
-            # resize to make sure data consistency
-            resized_data = cv2.resize(data, (size, size))
-            # add this to our training_data
-            training_data.append([resized_data])
-        except Exception as err:
-            print("an error has occured: ", err, str(full_name))
+        # check file extention
+        if image.endswith(".jpg"):
+            try:
+                data_path = pathlib.Path(data_path)
+                full_name = str(pathlib.Path.joinpath(data_path, image))
+                data = cv2.imread(str(full_name), 0)
+                # resize to make sure data consistency
+                resized_data = cv2.resize(data, (size, size))
+                # add this to our training_data
+                training_data.append([resized_data])
+            except Exception as err:
+                print("an error has occured: ", err, str(full_name))
 
     # normalize data
     training_data = np.array(training_data)/255.
@@ -184,9 +189,23 @@ if __name__ == "__main__":
     SOURCE = "C:/data/in"
     TARGET = "C:/data/out"
     FIG_SIZE = (20, 20)
+    args = [SOURCE, TARGET, FIG_SIZE]
+
+    import time
+    start = time.perf_counter()
 
     extractor = SpectrogramExtractor()
     extractor.extract(SOURCE, TARGET, FIG_SIZE)
+
+    # with concurrent.futures.ThreadPoolExecutor() as executor:
+    #     future = executor.submit(extract, [SOURCE, TARGET, FIG_SIZE])
+    #     future = executor.submit(extract)
+
+    # with concurrent.futures.ProcessPoolExecutor() as executor:
+    #     future = executor.submit(extract, args)
+
+    finish = time.perf_counter()
+    print(f'Finished in {round(finish-start, 2)} second(s)')
 
     '''
     2. Load training images
@@ -267,7 +286,7 @@ if __name__ == "__main__":
     # get statistics for each spectrogram
     file = 'c:/data/sample_0.jpg'
     file = 'c:/data/sample_1.jpg'
-    file = 'c:/data/sample_2.jpg'
+    # file = 'c:/data/sample_2.jpg'
     sample = plt.imread(file)
     plt.imshow(sample)
     sample = pathlib.Path(file)

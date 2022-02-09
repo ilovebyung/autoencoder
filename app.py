@@ -8,14 +8,21 @@ import os
 from dateutil import parser
 from utility import allowed_file, InfoForm, UPLOAD_FOLDER
 from model import app, db, TB, Setting
+from graphing import create_dash_application
 
 '''
 database 
 '''
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+'''
+dash 
+'''
 # app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# db = SQLAlchemy(app)
+create_dash_application(app)
 
 '''
 upload module
@@ -168,3 +175,7 @@ def delete_setting(id):
     except:
         flash("A deletion error has occurred.", category='error')
         return redirect('/setting')
+
+@app.route('/graphing')
+def graphing():
+    create_dash_application(app)
