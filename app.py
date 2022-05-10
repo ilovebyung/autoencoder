@@ -5,16 +5,18 @@ from datetime import datetime, time
 from dateutil import parser
 from werkzeug.utils import secure_filename
 import os
+import concurrent.futures
 from dateutil import parser
-from utility import allowed_file, InfoForm, UPLOAD_FOLDER
-from model import app, db, TB, Setting
+from utility import allowed_file, InfoForm, UPLOAD_FOLDER, upload_file
+from database import app, db, Inspection, Setting
 from graphing import create_dash_application
+
 
 '''
 database 
 '''
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -28,7 +30,7 @@ create_dash_application(app)
 upload module
 '''
 app.secret_key = "IOT4M@hle"
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+# app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 # Get current path
 path = os.getcwd()
@@ -51,8 +53,9 @@ def index():
 @app.route('/add', methods=["POST", "GET"])
 def add():
     if request.method == "POST":
-        row = request.form['name']
-        new_row = TB(name=row)
+        name = request.form['name']
+        value = request.form['value']
+        new_row = Inspection(name=name, value=value)
         # commit to database
         try:
             db.session.add(new_row)
@@ -61,7 +64,7 @@ def add():
         except:
             return "an error has occured"
     else:
-        rows = TB.query.order_by(TB.date_created)
+        rows = Inspection.query.order_by(Inspection.date_created)
         return render_template("add.html", rows=rows)
 
 
@@ -69,13 +72,13 @@ def add():
 def query():
     title = "query by date"
 
-    rows = TB.query.order_by(TB.date_created)
+    rows = Inspection.query.order_by(Inspection.date_created)
     return render_template("query.html", title=title, rows=rows)
 
 
 @app.route('/update/<int:id>', methods=["POST", "GET"])
 def update(id):
-    row_to_update = TB.query.get_or_404(id)
+    row_to_update = Inspection.query.get_or_404(id)
 
     if request.method == "POST":
         row_to_update.name = request.form['name']
@@ -90,7 +93,7 @@ def update(id):
 
 @app.route('/delete/<int:id>', methods=["POST", "GET"])
 def delete(id):
-    row_to_delete = TB.query.get_or_404(id)
+    row_to_delete = Inspection.query.get_or_404(id)
     try:
         db.session.delete(row_to_delete)
         db.session.commit()
@@ -110,10 +113,14 @@ def upload():
 
         files = request.files.getlist('files[]')
 
-        for file in files:
-            if file and allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        # for file in files:
+        #     if file and allowed_file(file.filename):
+        #         filename = secure_filename(file.filename)
+        #         # multithreding
+        #         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            executor.map(upload_file, files)
 
         flash('WAV File(s) successfully uploaded')
     return render_template("upload.html", title=title)
@@ -137,8 +144,8 @@ def date_result():
     title = " inspection result"
     startdate = parser.parse(session['startdate'])
     enddate = parser.parse(session['enddate'])
-    rows = db.session.query(TB).filter(
-        TB.date_created.between(startdate, enddate))
+    rows = db.session.query(Inspection).filter(
+        Inspection.date_created.between(startdate, enddate))
     return render_template('date_result.html', title=title, rows=rows, startdate=startdate.strftime("%Y-%m-%d %H:%M"), enddate=enddate.strftime("%Y-%m-%d %H:%M"))
 
 
@@ -175,6 +182,7 @@ def delete_setting(id):
     except:
         flash("A deletion error has occurred.", category='error')
         return redirect('/setting')
+
 
 @app.route('/graphing')
 def graphing():

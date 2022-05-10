@@ -4,7 +4,7 @@ import os
 
 app = Flask(__name__)
 
-app.secret_key = "M@hle123"
+# app.secret_key = "M@hle123"
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 # Get current path

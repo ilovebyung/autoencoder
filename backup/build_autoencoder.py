@@ -9,6 +9,9 @@
 from tensorflow.python.keras.layers.core import Dropout
 from tensorflow.keras.models import Model
 from tensorflow.keras import layers, losses
+from tensorflow.keras.layers import Dense, Input, Conv2D, Flatten, Reshape, Conv2DTranspose
+from tensorflow.keras.utils import plot_model
+from tensorflow.keras import backend as K
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 import tensorflow.keras as keras
 import tensorflow as tf
@@ -81,7 +84,6 @@ class SpectrogramExtractor:
                 file_name = f'{file[0:-4]}.jpg'
                 full_name = str(pathlib.Path.joinpath(data_path, file_name))
                 plt.savefig(str(full_name), bbox_inches='tight', pad_inches=0)
-                plt.close()
 
 
 '''
@@ -126,26 +128,26 @@ def create_training_data(data_path, size=224):
 # Define a convolutional Autoencoder
 
 
-class Autoencoder(Model):
-    def __init__(self, latent_dim):
-        super(Autoencoder, self).__init__()
-        # input layer
-        self.latent_dim = latent_dim
-        # 1st dense layer
-        self.encoder = tf.keras.Sequential([
-            layers.Flatten(),
-            layers.Dense(latent_dim, activation='relu'),
+# class Autoencoder(Model):
+#     def __init__(self, latent_dim):
+#         super(Autoencoder, self).__init__()
+#         # input layer
+#         self.latent_dim = latent_dim
+#         # 1st dense layer
+#         self.encoder = tf.keras.Sequential([
+#             layers.Flatten(),
+#             layers.Dense(latent_dim, activation='relu'),
 
-        ])
-        self.decoder = tf.keras.Sequential([
-            layers.Dense(224*224, activation='sigmoid'),
-            layers.Reshape((224, 224))
-        ])
+#         ])
+#         self.decoder = tf.keras.Sequential([
+#             layers.Dense(224*224, activation='sigmoid'),
+#             layers.Reshape((224, 224))
+#         ])
 
-    def call(self, x):
-        encoded = self.encoder(x)
-        decoded = self.decoder(encoded)
-        return decoded
+#     def call(self, x):
+#         encoded = self.encoder(x)
+#         decoded = self.decoder(encoded)
+#         return decoded
 
 
 '''
@@ -153,12 +155,29 @@ class Autoencoder(Model):
 '''
 
 
-def model_threshold(autoencoder, x_train):
-    encoded_imgs = autoencoder.encoder(x_train).numpy()
-    decoded_imgs = autoencoder.decoder(encoded_imgs).numpy()
-    loss = tf.keras.losses.mse(decoded_imgs, x_train)
-    threshold = np.mean(loss) + np.std(loss)
-    return threshold
+# def model_threshold(autoencoder, x_train):
+#     encoded_imgs = encoder(x_train).numpy()
+#     decoded_imgs = decoder(encoded_imgs).numpy()
+#     loss = tf.keras.losses.mse(decoded_imgs, x_train[:, :, :, np.newaxis])
+#     threshold = np.mean(loss) + np.std(loss)
+#     return threshold
+
+
+def spectrogram_loss(encoder, decoder, spectrogram, size=224):
+    data = np.ndarray(shape=(1, size, size), dtype=np.float32)
+    # individual sample
+    # Load an image from a file
+    data = cv2.imread(str(spectrogram), 0)
+    # resize to make sure data consistency
+    resized_data = cv2.resize(data, (size, size))
+    # nomalize img
+    normalized_data = resized_data.astype('float32') / 255.
+    # test an image
+    encoded = encoder(normalized_data.reshape(-1, size, size))
+    decoded = decoder(encoded)
+    loss = tf.keras.losses.mse(decoded, normalized_data)
+    sample_loss = np.mean(loss) + np.std(loss)
+    return sample_loss
 
 
 '''
@@ -188,8 +207,7 @@ if __name__ == "__main__":
     '''
     1. Extract spectrograms from wav files
     '''
-    # SOURCE = "C:/data/in"
-    SOURCE = 'C:/data/36cc'
+    SOURCE = "C:/data/in"
     TARGET = "C:/data/out"
     FIG_SIZE = (20, 20)
     args = [SOURCE, TARGET, FIG_SIZE]
@@ -215,17 +233,111 @@ if __name__ == "__main__":
     '''
     3. Build autoencoder 
     '''
-    autoencoder = Autoencoder(latent_dim=64*3)  # * 4
-    autoencoder.compile(optimizer='adam', loss=losses.MeanSquaredError())
 
-    history = autoencoder.fit(x_train, x_train,
+    # network parameters
+    size = 224
+    input_shape = (size, size, 1)
+    batch_size = 32
+    kernel_size = 3
+    latent_dim = 16
+    # encoder/decoder number of CNN layers and filters per layer
+    layer_filters = [32, 64]
+
+    # build the autoencoder model
+    # first build the encoder model
+    inputs = Input(shape=input_shape, name='encoder_input')
+    x = inputs
+    # stack of Conv2D(32)-Conv2D(64)
+    for filters in layer_filters:
+        x = Conv2D(filters=filters,
+                   kernel_size=kernel_size,
+                   activation='relu',
+                   strides=2,
+                   padding='same')(x)
+
+    # shape info needed to build decoder model
+    # so we don't do hand computation
+    # the input to the decoder's first
+    # Conv2DTranspose will have this shape
+    # shape is (7*8, 7*8, 64*8) which is processed by
+    # the decoder back to (28*8, 28*8, 1)
+    shape = K.int_shape(x)
+    # generate latent vector
+    x = Flatten()(x)
+    latent = Dense(latent_dim, name='latent_vector')(x)
+    # instantiate encoder model
+    encoder = Model(inputs,
+                    latent,
+                    name='encoder')
+    encoder.summary()
+    plot_model(encoder,
+               to_file='encoder.png',
+               show_shapes=True)
+
+    # build the decoder model
+    latent_inputs = Input(shape=(latent_dim,), name='decoder_input')
+    # use the shape (7, 7, 64) that was earlier saved
+    x = Dense(shape[1] * shape[2] * shape[3])(latent_inputs)
+    # from vector to suitable shape for transposed conv
+    x = Reshape((shape[1], shape[2], shape[3]))(x)
+    # stack of Conv2DTranspose(64)-Conv2DTranspose(32)
+    for filters in layer_filters[::-1]:
+        x = Conv2DTranspose(filters=filters,
+                            kernel_size=kernel_size,   activation='relu',
+                            strides=2,
+                            padding='same')(x)
+    # reconstruct the input
+    outputs = Conv2DTranspose(filters=1,
+                              kernel_size=kernel_size,
+                              activation='sigmoid',
+                              padding='same',
+                              name='decoder_output')(x)
+    # instantiate decoder model
+    decoder = Model(latent_inputs, outputs, name='decoder')
+    decoder.summary()
+    plot_model(decoder, to_file='decoder.png', show_shapes=True)
+    # autoencoder = encoder + decoder
+    # instantiate autoencoder model
+    autoencoder = Model(inputs,
+                        decoder(encoder(inputs)),
+                        name='autoencoder')
+
+    autoencoder.summary()
+    plot_model(autoencoder,
+               to_file='autoencoder.png',
+               show_shapes=True)
+
+    # Mean Square Error (MSE) loss function, Adam optimizer
+    autoencoder.compile(loss='mse', optimizer='adam')
+    # train the autoencoder
+    history = autoencoder.fit(x_train,
+                              x_train,
+                              validation_data=(x_test, x_test),
                               epochs=20,
-                              shuffle=True,
-                              validation_data=(x_test, x_test))
+                              batch_size=batch_size)
 
-    # a summary of architecture
-    autoencoder.encoder.summary()
-    autoencoder.decoder.summary()
+    # autoencoder = Autoencoder(latent_dim=64 * 2)
+    # autoencoder.compile(optimizer='adam', loss=losses.MeanSquaredError())
+
+    # history = autoencoder.fit(x_train, x_train,
+    #                           epochs=10,
+    #                           shuffle=True,
+    #                           validation_data=(x_test, x_test))
+
+    # autoencoder = build_autoencoder(size=224, latent_dim=64 * 2)
+    # autoencoder.compile(loss='mse')
+    # history = autoencoder.fit(
+    #     x_train,
+    #     x_train,
+    #     epochs=20,
+    #     batch_size=32, validation_split=0.10)
+
+    # # a summary of architecture
+    # autoencoder.encoder.summary()
+    # autoencoder.decoder.summary()
+
+    '''
+    '''
 
     # plot history
     plt.plot(history.history["loss"], label="Training Loss")
@@ -239,15 +351,18 @@ if __name__ == "__main__":
 
     # load autoencoder model
     if autoencoder is None:
-        autoencoder = Autoencoder(latent_dim=64 * 4)
+        # autoencoder = Autoencoder(latent_dim=64 * 2)
         autoencoder = keras.models.load_model('./model/')
 
     '''
     4. Set threshold
     '''
-    threshold = model_threshold(autoencoder, x_train)
-    # loss = tf.keras.losses.mse(decoded_imgs, x_train)
-    # threshold = np.mean(loss) + 0.5 * np.std(loss)
+
+    encoded_imgs = encoder(x_train).numpy()
+    decoded_imgs = decoder(encoded_imgs).numpy()
+    loss = tf.keras.losses.mse(decoded_imgs, x_train[:, :, :, np.newaxis])
+    threshold = np.mean(loss) + np.std(loss)
+
     print("Loss Threshold: ", threshold)
 
     # load autoencoder model
@@ -258,16 +373,19 @@ if __name__ == "__main__":
     5. Make an inference
     '''
     # get statistics for each spectrogram
-    file = 'c:/data/x_test/2208212119H0010019948_TDM_2022-03-30_15-58-55__Microphone.jpg'
-    # file = 'c:/data/doubt_NOK_2208212119H0010019788_TDM_2022-03-30_15-55-34__Microphone.jpg'
-    # file = 'c:/data/need_check_2208211119H0010019698_TDM_2022-03-30_16-22-03__Microphone.jpg'
-    file = 'c:/data/sample/2135711119H0010094578_TDM_2022-03-31_10-50-26__Microphone.jpg'
-
+    file = 'c:/data/sample_0.jpg'
+    file = 'c:/data/sample_1.jpg'
     # file = 'c:/data/sample_2.jpg'
     sample = plt.imread(file)
     plt.imshow(sample)
     sample = pathlib.Path(file)
-    sample_loss = spectrogram_loss(autoencoder, sample)
+
+    encoded_imgs = encoder(x_train).numpy()
+    decoded_imgs = decoder(encoded_imgs).numpy()
+    loss = tf.keras.losses.mse(decoded_imgs, x_train[:, :, :, np.newaxis])
+    threshold = np.mean(loss) + np.std(loss)
+
+    sample_loss = spectrogram_loss(encoder, decoder, sample)
 
     if sample_loss > threshold:
         print(

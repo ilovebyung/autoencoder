@@ -4,23 +4,25 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/database.db'  
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
-class TB(db.Model):
+class Inspection(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
+    value = db.Column(db.Numeric, nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
-        return '<TB %r>' % self.id
+        return '<Inspection %r>' % self.id
 
 
 class Setting(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    value = db.Column(db.Integer, nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    value = db.Column(db.Numeric, nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):

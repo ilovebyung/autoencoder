@@ -1,0 +1,13 @@
+python -m ai virtual
+pip install flask
+flask run
+python -m flask run
+export FLASK_APP=app.py
+pip install flask-sqlalchemy
+pip install jupyter-dash
+
+
+python 
+from database import db
+db.create_all()
+exit()
