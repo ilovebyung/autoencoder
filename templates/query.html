@@ -19,6 +19,7 @@
                     {% for row in rows%}
                     <tr>
                         <td>{{row.name}} </td>
+                        <td>{{row.value}} </td>
                         <td>{{row.date_created}}</td>
                         <td>         
                             <a href="/update/{{row.id}}" class="btn btn-secondary btn-sm"> Update</a>

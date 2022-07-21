@@ -7,10 +7,11 @@
 '''
 
 from tensorflow.python.keras.layers.core import Dropout
-from tensorflow.keras.models import Model
-from tensorflow.keras import layers, losses
+from tensorflow.python.keras.models import Model
+from tensorflow.python.keras import layers, losses
 from sklearn.metrics import accuracy_score, precision_score, recall_score
 import tensorflow.keras as keras
+from tensorflow import keras
 import tensorflow as tf
 import pandas as pd
 import numpy as np
@@ -135,7 +136,6 @@ class Autoencoder(Model):
         self.encoder = tf.keras.Sequential([
             layers.Flatten(),
             layers.Dense(latent_dim, activation='relu'),
-
         ])
         self.decoder = tf.keras.Sequential([
             layers.Dense(224*224, activation='sigmoid'),
@@ -146,6 +146,28 @@ class Autoencoder(Model):
         encoded = self.encoder(x)
         decoded = self.decoder(encoded)
         return decoded
+
+# class Autoencoder(Model):
+#     def __init__(self):
+#         super(Autoencoder, self).__init__()
+#         # input layer
+#         self.encoder = tf.keras.Sequential([
+#             layers.Flatten(),
+#             layers.Dense(128, activation='relu'),
+#             layers.Dense(64, activation='relu'),
+#             layers.Dense(32, activation='relu'),
+#         ])
+#         self.decoder = tf.keras.Sequential([
+#             layers.Dense(64, activation='relu'),
+#             layers.Dense(128, activation='relu'),
+#             layers.Dense(224*224, activation='sigmoid'),
+#             layers.Reshape((224, 224))
+#         ])
+
+#     def call(self, x):
+#         encoded = self.encoder(x)
+#         decoded = self.decoder(encoded)
+#         return decoded
 
 
 '''
@@ -189,8 +211,8 @@ if __name__ == "__main__":
     1. Extract spectrograms from wav files
     '''
     # SOURCE = "C:/data/in"
-    SOURCE = 'C:/data/36cc'
-    TARGET = "C:/data/out"
+    SOURCE = 'd:/data/segmented_36cc_in'
+    TARGET = 'd:/data/segmented_36cc_out'
     FIG_SIZE = (20, 20)
     args = [SOURCE, TARGET, FIG_SIZE]
 
@@ -206,26 +228,30 @@ if __name__ == "__main__":
     '''
     2. Load training images
     '''
-    data_path = "C:/data/x_train"
-    x_train = create_training_data(data_path)
+    data_path = 'd:/data/segmented_36cc_out'  # 'D:/Data/36_57'
+    data = create_training_data(data_path)
 
-    data_path = "C:/data/x_test"
-    x_test = create_training_data(data_path)
+    x_train = data[:-2]
+    x_test = data[-2:]
+
+    # data_path = "D:/Data/out/test"    # "D:/Data/36_57_test"
+    # x_test = create_training_data(data_path[-2:])
 
     '''
     3. Build autoencoder 
     '''
-    autoencoder = Autoencoder(latent_dim=64*3)  # * 4
+    autoencoder = Autoencoder(latent_dim=64*2)
+    # autoencoder = Autoencoder()
     autoencoder.compile(optimizer='adam', loss=losses.MeanSquaredError())
 
     history = autoencoder.fit(x_train, x_train,
-                              epochs=20,
+                              epochs=40,
                               shuffle=True,
                               validation_data=(x_test, x_test))
 
-    # a summary of architecture
-    autoencoder.encoder.summary()
-    autoencoder.decoder.summary()
+    # # a summary of architecture
+    # autoencoder.encoder.summary()
+    # autoencoder.decoder.summary()
 
     # plot history
     plt.plot(history.history["loss"], label="Training Loss")
@@ -239,7 +265,7 @@ if __name__ == "__main__":
 
     # load autoencoder model
     if autoencoder is None:
-        autoencoder = Autoencoder(latent_dim=64 * 4)
+        autoencoder = Autoencoder(latent_dim=64 * 2)
         autoencoder = keras.models.load_model('./model/')
 
     '''
@@ -258,8 +284,8 @@ if __name__ == "__main__":
     5. Make an inference
     '''
     # get statistics for each spectrogram
-    file = 'c:/data/x_test/2208212119H0010019948_TDM_2022-03-30_15-58-55__Microphone.jpg'
-    # file = 'c:/data/doubt_NOK_2208212119H0010019788_TDM_2022-03-30_15-55-34__Microphone.jpg'
+    file = 'D:/Data/segmented_36cc_test/2127312119H0010066143_TDM_2022-07-20_15-44-21__Microphone_T3_T4.jpg'
+    file = 'D:/Data/segmented_36cc_test/2127312119H0010066053_TDM_2022-07-20_15-46-02__Microphone_T3_T4.jpg'
     # file = 'c:/data/need_check_2208211119H0010019698_TDM_2022-03-30_16-22-03__Microphone.jpg'
     file = 'c:/data/sample/2135711119H0010094578_TDM_2022-03-31_10-50-26__Microphone.jpg'
 

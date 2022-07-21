@@ -1,9 +1,11 @@
 import dash
-from dash import dcc
+from dash import dcc, Input, Output
 from dash import html
 import plotly.express as px
 import pandas as pd
 import time
+
+from sqlalchemy import Interval
 localtime = time.asctime(time.localtime(time.time()))
 
 dash_app = dash.Dash(__name__)
@@ -24,11 +26,24 @@ def create_dash_application(flask_app):
         children=[
             html.A("HOME", href='/'),
             dcc.Graph(
-                id='example-graph',
+                id='live-graph',
                 figure=fig
+            ),
+
+            dcc.Interval(
+                id='interval_component',
+                interval=1000,
+                n_intervals=0
             )
         ]
     )
+
+    @dash_app.callback(
+        Output('live-graph', 'fig'),
+        Input('interval_component', 'n_intervals')
+    )
+    def update_graph(input_value):
+        return fig
 
     return dash_app
 

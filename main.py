@@ -185,8 +185,10 @@ if __name__ == "__main__":
     '''
     1. Extract spectrograms from wav files
     '''
-    SOURCE = "C:/data/in"
-    TARGET = "C:/data/out"
+    # SOURCE = "C:/data/in"
+    # TARGET = "C:/data/out"
+    SOURCE = 'D:/Data/36cc'
+    TARGET = 'D:/Data/36cc_converted'
     FIG_SIZE = (20, 20)
 
     extractor = SpectrogramExtractor()
@@ -195,16 +197,18 @@ if __name__ == "__main__":
     '''
     2. Load training images
     '''
-    data_path = "C:/data/x_train"
+    # data_path = "C:/data/x_train"
+    data_path = "D:/Data/36cc_converted"
     x_train = create_training_data(data_path)
 
-    data_path = "C:/data/x_test"
+    # data_path = "C:/data/x_test"
+    data_path = "D:/Data/36cc_converted_test"
     x_test = create_training_data(data_path)
 
     '''
     3. Build autoencoder 
     '''
-    autoencoder = Autoencoder(latent_dim=64 * 2)
+    autoencoder = Autoencoder(latent_dim=64 * 3)
     autoencoder.compile(optimizer='adam', loss=losses.MeanSquaredError())
 
     history = autoencoder.fit(x_train, x_train,
@@ -246,9 +250,9 @@ if __name__ == "__main__":
     '''
     5. Make an inference
     '''
-    file = 'c:/data/sample_0.jpg'   # good
-    file = 'c:/data/sample_1.jpg'   # anomaly
-    file = 'c:/data/sample_2.jpg'   # bad
+    file = 'c:/data/2208213119H0010021378_TDM_2022-03-30_15-33-01__Microphone.jpg'   # good
+    file = 'c:/data/doubt_NOK_2208212119H0010019788_TDM_2022-03-30_15-55-34__Microphone.jpg'   # anomaly
+
     # get statistics for each spectrogram
     sample = plt.imread(file)
     plt.imshow(sample)

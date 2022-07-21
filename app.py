@@ -8,7 +8,7 @@ import os
 import concurrent.futures
 from dateutil import parser
 from utility import allowed_file, InfoForm, UPLOAD_FOLDER, upload_file
-from database import app, db, Inspection, Setting
+# from database import app, db, Inspection, Setting
 from graphing import create_dash_application
 
 
@@ -19,6 +19,35 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+
+class Inspection(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    value = db.Column(db.Numeric, nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return '<Inspection %r>' % self.id
+
+
+class Setting(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    value = db.Column(db.Numeric, nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return '<Parameter %r>' % self.id
+
+
+def create_database(app):
+    if not os.path.exists('database.db'):
+        db.create_all(app=app)
+        print('database created!')
+    else:
+        print('database exists')
+
 
 '''
 dash 
@@ -81,7 +110,7 @@ def update(id):
     row_to_update = Inspection.query.get_or_404(id)
 
     if request.method == "POST":
-        row_to_update.name = request.form['name']
+        row_to_update.name = request.form["name"]
         try:
             db.session.commit()
             return redirect('/query')
