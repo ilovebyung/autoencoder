@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %} {{title}} {% endblock %}
+
+{% block content %}
+<div class = "container">
+	<h4> {{title}} </h4>
+	<br/>
+    <form action="" method='POST' class="btn btn-outline-secondary">
+        {{ form.csrt_token }}
+        <br/><p>{{ form.startdate.label }}</p>   {{form.startdate(class='datepicker')}} {{form.hidden_tag()}}
+        <br/><br/><p>{{ form.enddate.label }}</p>     {{form.enddate(class='datepicker')}} {{form.hidden_tag()}}     
+        <br/><br/>
+        {{form.submit()}}
+    </form>
+</div>
+{% endblock %}
+

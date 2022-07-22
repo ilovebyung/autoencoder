@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %} Quality Inspection with audio {% endblock %}
+{% block content %}
+  <div class = "container">
+      <h4> User Instructions </h4>
+
+      <div class="accordion" id="user_accordion-items">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+              <strong>Upload wav files from source to target data</strong> _End User, Power User #1
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#user_accordion-items">
+            <div class="accordion-body">
+              <ul> A scheduling job moves files wav files from source (LabView) to target every 10 minutes with 'robocopy'. Consequently, Source wav files shall be cleaned up </ul>
+              <ul> A user may copy wav files with 'Upload' </ul>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              <strong>Extract spectrograms from wav files</strong> _End User, Power User #2
+            </button>
+          </h2>
+          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#user_accordion-items">
+            <div class="accordion-body">
+              <ul> End User may extract spectrograms one at a time </ul>
+              <ul> Power User may extract multiple spectrograms for model training </ul>            
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingSix">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+              <strong>Make an inference</strong> _End User, Power User #6
+            </button>
+          </h2>
+          <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#user_accordion-items">
+            <div class="accordion-body">
+              <ul> Inspection results are recoreded in database  </ul> 
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingSeven">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+              <strong>Pick a date and review inferences</strong> _End User, Power User #7
+            </button>
+          </h2>
+          <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#user_accordion-items">
+            <div class="accordion-body">
+              <ul> Inspection results are reviewed  </ul> 
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </div>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %} {{title}} {% endblock %}
+{% block content %}
+<div class = "container">
+	<h4> {{title}} </h4>
+	<br/>
+	{% with messages = get_flashed_messages() %}
+	{% if messages %}
+	  <ul class=flashes>
+	  {% for message in messages %}
+		<li>{{ message }}</li>
+	  {% endfor %}
+	  </ul>
+	{% endif %}
+  	{% endwith %}
+ 
+<form method="post" action="/upload" enctype="multipart/form-data"> 
+	<input type="file" class="btn btn-outline-secondary" name="files[]" multiple="true" autocomplete="off" required >
+	<br/>
+	<br/>
+	<input type="submit" class="btn btn-secondary btn-sm" value="Submit">
+</form>
+</div>
+{% endblock %}

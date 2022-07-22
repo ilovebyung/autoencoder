@@ -1,0 +1,10 @@
+python -m venv virtual
+pip install flask
+flask run
+python -m flask run
+export FLASK_APP=app.py
+pip install flask-sqlalchemy
+python 
+from app import db
+db.create_all()
+exit()

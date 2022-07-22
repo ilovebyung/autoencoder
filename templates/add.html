@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %} Add {% endblock %}
+
+{% block content %}
+    <div class = "container">
+        <h4> Add </h4>
+        <form action="/add" method="POST">
+            <input type="text" placeholder="Add Name" name="name">
+            <input type="text" placeholder="Add Value" name="value">
+            <button type="submit" placeholder="add" class="btn btn-secondary btn-sm">Submit</button>
+        </form>
+
+        <br/>
+        <table class="table">
+            <thead>
+                <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Value</th>
+                  <th scope="col">Date Created</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for row in rows%}
+                <tr>
+                    <td>{{row.name}} </td>
+                    <td>{{row.value}} </td>
+                    <td>{{row.date_created}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>  
+{% endblock %}

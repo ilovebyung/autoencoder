@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %} Update {% endblock %}
+{% block content %}
+
+<div class="container">
+    <h4> Update </h4>
+    <br/>
+        <form action="/update/{{row_to_update.id}}" method="POST">
+            <input type="text" placeholder="placeholder" id="name" name="name" value="{{row_to_update.name}}">
+            <input type="submit" value="Update Name" class="btn btn-secondary"> 
+        </form> 
+    </div>
+
+
+{% endblock %}
+

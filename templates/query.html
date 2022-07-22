@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %} Query {% endblock %}
+{% block content %}
+    <div class = "container">
+        <h4> Query </h4>
+        <br/>
+        <form action = "/query" method="POST">
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Value</th>
+                        <th scope="col">Date Created</th>
+                        <th scope="col">Handle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in rows%}
+                    <tr>
+                        <td>{{row.name}} </td>
+                        <td>{{row.value}}</td>
+                        <td>{{row.date_created}}</td>
+                        <td>         
+                            <a href="/update/{{row.id}}" class="btn btn-secondary btn-sm"> Update</a>
+                            <a href="/delete/{{row.id}}" class="btn btn-danger btn-sm"> Delete</a>
+                        </td>  
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+        </table>
+        </form>
+
+    </div>
+{% endblock %}

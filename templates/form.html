@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %} Form Processing {% endblock %}
+
+{% block content %}
+
+<div class="container">
+<h4> Form Page </h4>
+<br/>
+
+{% if error_statement %}
+<div class="alert alert-warning" role="alert">
+    {{error_statement}}
+</div>
+{% endif %}
+
+{% if first_field == "squid game" %}
+    <div class="alert alert-warning" role="alert">
+        Welcome to the game!
+    </div>
+
+{% endif %}
+
+</div>
+{% endblock %}
