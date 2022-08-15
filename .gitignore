@@ -1,16 +1,19 @@
 .vscode/settings.json
 # ignore all logs
 *.log
+*.dill
+*.h5
 # ignore test data
 *.db
 # ignore images
 *.jpg
+*.png
 # ignore audio
 *.wav
 # ignore text data
 *.csv
 # ignore sandbox
-sandbox.py
+sandbox*
 script.py
 scripts.py
 database.db

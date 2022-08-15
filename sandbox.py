@@ -6,6 +6,9 @@
 5. Make an inference
 '''
 
+from scipy.io.wavfile import read
+import time
+from tensorflow.keras.datasets import fashion_mnist
 from tensorflow.python.keras.layers.core import Dropout
 from tensorflow.keras.models import Model
 from tensorflow.keras import layers, losses
@@ -70,8 +73,7 @@ class SpectrogramExtractor:
                 spectrogram = np.abs(stft)  # np.abs(stft) ** 2
 
                 # apply logarithm to cast amplitude to Decibels
-                # log_spectrogram = librosa.amplitude_to_db(spectrogram)
-                log_spectrogram = (spectrogram)
+                log_spectrogram = librosa.amplitude_to_db(spectrogram)
 
                 # Matplotlib plots: removing axis, legends and white spaces
                 plt.figure(figsize=FIG_SIZE)
@@ -83,12 +85,6 @@ class SpectrogramExtractor:
                 full_name = str(pathlib.Path.joinpath(data_path, file_name))
                 plt.savefig(str(full_name), bbox_inches='tight', pad_inches=0)
                 plt.close()
-
-
-'''
-2. Load training images  
-'''
-# resize and normalize data for training
 
 
 '''
@@ -195,9 +191,10 @@ if __name__ == "__main__":
     '''
     1. Extract spectrograms from wav files
     '''
-    # SOURCE = "C:/data/in"
-    SOURCE = 'C:/data/36cc'
-    TARGET = "C:/data/out"
+    SOURCE = "C:/data/in"
+    TARGET = 'D:/Data/out/57cc/test'
+    # SOURCE = 'D:/Data/in/57cc'
+    # TARGET = 'D:/Data/out/57cc'
     FIG_SIZE = (20, 20)
     args = [SOURCE, TARGET, FIG_SIZE]
 
@@ -213,48 +210,67 @@ if __name__ == "__main__":
     '''
     2. Load training images
     '''
-    data_path = "C:/data/x_train"
+    data_path = 'D:/Data/out/57cc'
     x_train = create_training_data(data_path)
 
-    data_path = "C:/data/x_test"
+    data_path = "D:/Data/out/57cc/test"
     x_test = create_training_data(data_path)
 
     '''
     3. Build autoencoder 
     '''
-    autoencoder = Autoencoder(latent_dim=64 * 4)
+    k = 4
+    num_val_samples = len(x_train) // k
+    num_epochs = 100
+    all_scores = []
+
+    autoencoder = Autoencoder(latent_dim=64 * 3)
+    autoencoder.compile(optimizer='adam', loss=losses.MeanSquaredError())
+
+    for i in range(k):
+        print(f"Processing fold #{i}")
+        val_data = x_train[i * num_val_samples: (i + 1) * num_val_samples]
+        # val_targets = x_train[i * num_val_samples: (i + 1) * num_val_samples]
+        partial_train_data = np.concatenate(
+            [x_train[:i * num_val_samples],
+             x_train[(i + 1) * num_val_samples:]],
+            axis=0)
+        history = autoencoder.fit(partial_train_data, partial_train_data,
+                                  epochs=num_epochs,
+                                  shuffle=True,
+                                  #   validation_data=(val_data, val_data))
+                                  validation_data=(val_data, val_data))
+
+        # Evaluate the model
+        all_scores.append(history.history["val_loss"])
+
+        # a summary of architecture
+        autoencoder.encoder.summary()
+        autoencoder.decoder.summary()
+
+        # plot history
+        plt.plot(history.history["loss"], label="Training Loss")
+        plt.plot(history.history["val_loss"], label="Validation Loss")
+        plt.legend()
+        plt.show()
+
+    '''
+    general model
+    '''
+    autoencoder = Autoencoder(latent_dim=64*3)
     autoencoder.compile(optimizer='adam', loss=losses.MeanSquaredError())
 
     history = autoencoder.fit(x_train, x_train,
-                              epochs=10,
+                              epochs=100,
                               shuffle=True,
                               validation_data=(x_test, x_test))
-
-    # a summary of architecture
-    autoencoder.encoder.summary()
-    autoencoder.decoder.summary()
-
-    # plot history
-    plt.plot(history.history["loss"], label="Training Loss")
-    plt.plot(history.history["val_loss"], label="Validation Loss")
-    plt.legend()
-    plt.show()
-
-    # save and load a mode
-    autoencoder.save('./model/')
-    autoencoder = keras.models.load_model('./model/')
-
-    # load autoencoder model
-    if autoencoder is None:
-        autoencoder = Autoencoder(latent_dim=64 * 4)
-        autoencoder = keras.models.load_model('./model/')
 
     '''
     4. Set threshold
     '''
     threshold = model_threshold(autoencoder, x_train)
     # loss = tf.keras.losses.mse(decoded_imgs, x_train)
-    # threshold = np.mean(loss) + np.std(loss)
+    # threshold = np.mean(loss) + 0.5 * np.std(loss)
     print("Loss Threshold: ", threshold)
 
     # load autoencoder model
@@ -264,11 +280,16 @@ if __name__ == "__main__":
     '''
     5. Make an inference
     '''
+    os.chdir('D:\\Data\\out\\test')
     # get statistics for each spectrogram
-    file = 'c:/data/x_test/2208212119H0010019948_TDM_2022-03-30_15-58-55__Microphone.jpg'
-    # file = 'c:/data/doubt_NOK_2208212119H0010019788_TDM_2022-03-30_15-55-34__Microphone.jpg'
-    # file = 'c:/data/need_check_2208211119H0010019698_TDM_2022-03-30_16-22-03__Microphone.jpg'
-    file = 'c:/data/sample/2135711119H0010094578_TDM_2022-03-31_10-50-26__Microphone.jpg'
+    file = '36cc_OK_2208212119H0010019808.jpg'  # 36
+    file = '36cc_OK_2208212119H0010020068.jpg'  # 36
+    file = '57cc_OK_121282111NB982000290918.jpg'  # 57
+    file = '57cc_OK_121282111NB982000294418.jpg'  # 57
+
+    os.chdir('D:\\Data\\57cc_not_ok')
+    file = '57cc_NO_121281111NB982000266318.jpg'
+    file = '57cc_NO_121281111NB982000266618.jpg'
 
     # file = 'c:/data/sample_2.jpg'
     sample = plt.imread(file)
@@ -286,3 +307,28 @@ if __name__ == "__main__":
             f'Loss is smaller than threshold \n \
               Sample Loss: {sample_loss} \n \
               Threshold: {threshold} ')
+
+
+start = time.perf_counter()
+# df = pd.read_csv('D:\\Data\\out\\36cc_csv.csv')
+df = pd.read_csv('D:\\Data\\36cc.csv')
+# raw_data = df.values
+# df.head()
+# df.shape  # (39, 1295464)
+finish = time.perf_counter()
+print(f'loading text data finished in {round(finish-start)}')
+
+###########
+start = time.perf_counter()
+# df = pd.read_csv('D:\\Data\\out\\36cc_csv.csv')
+img = plt.imread('D:\\Data\\36cc.jpg')
+plt.imshow(img)
+finish = time.perf_counter()
+print(f'loading image finished in {round(finish-start, 3)}')
+
+###########
+start = time.perf_counter()
+audio = read('D:\\Data\\36cc.wav')
+data = np.array(audio[1], dtype=float)
+finish = time.perf_counter()
+print(f'loading audio finished in {round(finish-start, 3)}')
