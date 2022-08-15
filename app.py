@@ -1,6 +1,8 @@
 from flask import Flask, render_template, url_for, request, redirect, flash, session
 from flask.wrappers import Request
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import FlaskForm
+from wtforms_sqlalchemy.fields import QuerySelectField
 from datetime import datetime, time
 from dateutil import parser
 from werkzeug.utils import secure_filename
@@ -41,6 +43,15 @@ class Setting(db.Model):
         return '<Parameter %r>' % self.id
 
 
+def setting_query():
+    return Setting.query
+
+
+class SettingForm(FlaskForm):
+    opts = QuerySelectField(query_factory=setting_query,
+                            allow_blank=False, get_label='name')
+
+
 def create_database(app):
     if not os.path.exists('database.db'):
         db.create_all(app=app)
@@ -73,10 +84,16 @@ if not os.path.isdir(UPLOAD_FOLDER):
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
+    form = SettingForm()
+    form.opts.query = Setting.query.filter(Setting.id > 0)
     title = "Home Page"
-    return render_template("index.html", title=title)
+
+    if form.validate_on_submit():
+        return '<html><h1>{}</h1></html>'.format(form.opts.data)
+        # return 'return string'
+    return render_template("index.html", title=title, form=form)
 
 
 @app.route('/add', methods=["POST", "GET"])
@@ -178,8 +195,8 @@ def date_result():
     return render_template('date_result.html', title=title, rows=rows, startdate=startdate.strftime("%Y-%m-%d %H:%M"), enddate=enddate.strftime("%Y-%m-%d %H:%M"))
 
 
-@app.route('/setting', methods=["POST", "GET"])
-def setting():
+@app.route('/registration', methods=["POST", "GET"])
+def registration():
     title = "Set Threshold: The most recent value is applied"
     if request.method == "POST":
         row = request.form['value']
@@ -195,10 +212,10 @@ def setting():
             return redirect('/setting')
         except:
             flash("An unknown error has occurred.", category='error')
-            return redirect('/setting')
+            return redirect('/registration')
     else:
         rows = Setting.query.order_by(Setting.date_created)
-        return render_template("setting.html", title=title, rows=rows)
+        return render_template("registration.html", title=title, rows=rows)
 
 
 @app.route('/delete_setting/<int:id>', methods=["POST", "GET"])

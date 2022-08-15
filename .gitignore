@@ -18,3 +18,9 @@ script.py
 scripts.py
 database.db
 
+ae.py
+*.pyc
+*.pyc
+*.csv
+*.csv
+*.h5
